@@ -561,8 +561,10 @@ function renderCouncil(){
  const contactsHtml=contacts.map(id=>{const e=coordinationEntry(id),block=coordinationBlock(e),state=block?(e?.latest?.status==='enroute'?'传令在途':e?.cooldown>0?`${Math.ceil(e.cooldown)}秒后`:'暂不可议'):'相关提议';return `<button data-consult="${id}" ${block?'disabled':''} title="${esc(block||'请本部校尉提出不同方案，并非直接命令盟军')}" aria-label="${esc(nameOf(id)+'：'+(block||'请本部校尉拟定不同方案'))}">${esc(nameOf(id))} · ${state}</button>`;}).join('');if(contactsHtml!==councilContactsSig){councilContactsSig=contactsHtml;$('councilContacts').innerHTML=contactsHtml;}
  const duel=(view.duels||[]).filter(d=>d.phase!=='ended').slice(-1)[0];$('duelReadout').hidden=!duel;$('duelReadout').textContent=duel?`${duel.aName}与${duel.bName}${duel.phase==='exchange'?'正在交锋':'接近交锋'} · 自主交战，不停时`:'';
  const now=performance.now(),newMessage=current.id!==councilShownId,needDecision=!!a,urgentNow=!!urgent;
- if(newMessage&&current.kind!=='quiet'&&current.t>=view.t-20){councilShownId=current.id;councilAutoCloseAt=now+(urgentNow?12000:7000);if(view.t>=councilQuietUntil){if(needDecision||urgentNow){councilSnoozed=false;$('ordersDrawer').open=false;}else if(!$('ordersDrawer').open)councilSnoozed=false;}}
- const show=running()&&view.t>=councilQuietUntil&&!councilSnoozed&&(needDecision||urgentNow||now<councilAutoCloseAt)&&current.kind!=='quiet'&&(!$('ordersDrawer').open||needDecision||urgentNow);
+ // An incoming report must not dismiss an active command selection. Danger is
+ // still visible in the commander strip / unread badge; opening reports is explicit.
+ if(newMessage&&current.kind!=='quiet'&&current.t>=view.t-20){councilShownId=current.id;councilAutoCloseAt=now+(urgentNow?12000:7000);if(view.t>=councilQuietUntil&&!$('ordersDrawer').open)councilSnoozed=false;}
+ const show=running()&&view.t>=councilQuietUntil&&!councilSnoozed&&(needDecision||urgentNow||now<councilAutoCloseAt)&&current.kind!=='quiet'&&!$('ordersDrawer').open;
  $('dialogueZone').hidden=!show;$('messageButton').textContent=needDecision?'军议 · 待选':unread?`军报 · ${unread}`:'军议记录';$('messageButton').classList.toggle('pending',needDecision||urgentNow);
  $('counselOptions').style.setProperty?.('--option-count',String(Math.max(1,Math.min(3,current.advice?.options?.length||1))));
  $('withdrawAll').disabled=!running()||catchingUp();
@@ -571,10 +573,13 @@ function cycleCouncil(delta){const rows=councilMessages();if(!rows.length)return
 function projectWorld(x,y,z){if(battle3d?.available)return battle3d.project(x,y,z);return{x:uiViewRect.left+x/WORLD.w*uiViewRect.width,y:uiViewRect.top+y/WORLD.h*uiViewRect.height};}
 function unprojectWorld(x,y){if(battle3d?.available)return battle3d.unproject(x,y);return{x:(x-uiViewRect.left)/uiViewRect.width*WORLD.w,y:(y-uiViewRect.top)/uiViewRect.height*WORLD.h};}
 function syncBattleViewport(){
- const scene=$('mapScene'),width=Math.max(120,Math.round(scene.clientWidth||window.innerWidth||1400)),height=Math.max(120,Math.round(scene.clientHeight||window.innerHeight||1000)),dock=$('commandConsole'),popup=$('dialogueZone'),controlHeight=(dock.offsetHeight||170)+12,popupHeight=popup.hidden?0:(popup.offsetHeight||190)+10,topInset=width<760?154:166,bottomInset=Math.min(height*.65,controlHeight+popupHeight+10);
- const scale=Math.max(.05,Math.min((width-30)/WORLD.w,(height-topInset-bottomInset-14)/WORLD.h)),rect={left:(width-WORLD.w*scale)/2,top:topInset+Math.max(0,(height-topInset-bottomInset-WORLD.h*scale)/2),width:WORLD.w*scale,height:WORLD.h*scale},sig=JSON.stringify([width,height,topInset,bottomInset,!!battle3d?.available]);
+ const scene=$('mapScene'),width=Math.max(120,Math.round(scene.clientWidth||window.innerWidth||1400)),height=Math.max(120,Math.round(scene.clientHeight||window.innerHeight||1000)),dock=$('commandConsole'),controlHeight=(dock.offsetHeight||170)+12;
+ // HUDs float over the battlefield. Never subtract their heights from the map:
+ // opening a council used to shrink the terrain to a 154 x 110px postage stamp.
+ // Canvas pixels, world projection and hit testing share this one CSS-pixel fit.
+ const scale=Math.min(width/WORLD.w,height/WORLD.h),rect={left:(width-WORLD.w*scale)/2,top:(height-WORLD.h*scale)/2,width:WORLD.w*scale,height:WORLD.h*scale},sig=JSON.stringify([width,height,!!battle3d?.available]);
  document.documentElement?.style?.setProperty?.('--control-bottom',`${controlHeight}px`);
- if(sig!==uiViewSig){uiViewSig=sig;uiViewRect=rect;if(battle3d?.resize)battle3d.resize(width,height,{topInset,bottomInset});else{canvas.width=width;canvas.height=height;}markerSig='';}
+ if(sig!==uiViewSig){uiViewSig=sig;uiViewRect=rect;if(battle3d?.resize)battle3d.resize(width,height,{topInset:0,bottomInset:0});else{canvas.width=width;canvas.height=height;}markerSig='';}
  $('rendererMode').textContent=battle3d?.available?'三维地形 · 像素化渲染':'二维兼容模式';
 }
 function updateUI(){syncBrief();const u=selectedUnit(),r=friendlyCounts(u.id),all=friendlyCounts(),night=!!view.night;
