@@ -14,7 +14,7 @@
 <section class="journal"><button id="journalToggle" class="quiet">军报 <span id="lastLog">布阵尚未完成。普通军令不限次数、不消耗资源。</span><span>⌄</span></button><ol id="logs" hidden></ol></section>
 <section id="results" hidden></section><footer><span>确定性战局 · 无随机违令 · 无战中成长</span><span>空格 暂停 / 继续　　1 / 2 / 3 选择将领</span></footer></main>
 <dialog id="help"><button id="closeHelp" class="close" aria-label="关闭说明">×</button><p class="eyebrow">一局约两分钟</p><h2>你是主公，不是纠错员。</h2><p>将领会根据正在发生的战况主动请示，战斗自动暂停。必须明确选择采纳、改派或拒绝，然后由他们执行；相同问题不会反复催促。</p><div class="help-grid"><div><b>01 / 构筑与分工</b><p>点击三位将领，为每人选一套构筑。再选择桥路、北路或守营；也可开战后下令。</p></div><div><b>02 / 议策必有回应</b><p>军议弹出后，时间与后台操作全部冻结。只能明确选择一个方案，包括拒绝；不能用空格或关闭按钮跳过。回应后恢复原先的暂停状态。</p></div><div><b>03 / 留兵，还是抢攻？</b><p>28 秒开放预备队，投入后不能改派。敌骑 42 秒出现、约 60 秒抵营。留守更稳；绕后更快，却要回防或抢先取胜。</p></div><div><b>04 / 阵型与疲劳</b><p>行军是长纵队，停下后需要 3 秒展开战阵。未列阵与被冲散时攻防下降，但并非不能还手；疲劳会影响行军与战斗。脱离交战后固守可恢复疲劳；正在近战时不会凭空休息，重复下令也不能瞬间重整。</p></div></div><p class="help-foot">分散的小方块是亲兵，不装在军团框里；较大的方块是将领。盾阵横列、弓阵分排、骑兵楔阵随真实状态展开。兵力耗尽表示溃退；胜负看营寨和敌军大纛，不要求清场。大纛耐久较高，需持续攻击。</p><button id="helpDone" class="primary">明白了，去布阵</button></dialog>
-<dialog id="counselDialog" aria-labelledby="counselTitle" aria-describedby="counselWhy" aria-modal="true"><div class="counsel-topline"><span class="eyebrow" id="counselSpeaker">将领请示</span><span class="freeze-badge">战局已冻结</span></div><h2 id="counselTitle" tabindex="-1"></h2><p id="counselWhy" class="counsel-why"></p><details class="counsel-map"><summary>查看当前战场 · 金圈为相关部队</summary><canvas id="counselMap" width="960" height="560" aria-label="冻结中的战场，显示本次议策涉及的部队位置"></canvas></details><div id="counselOptions" aria-label="请明确选择一个方案"></div><p id="counselResume" class="counsel-resume"></p><p class="counsel-required">必须明确回应；不能关闭或用空格跳过。</p></dialog>
+<dialog id="counselDialog" aria-labelledby="counselTitle" aria-describedby="counselWhy" aria-modal="true"><div class="counsel-topline"><span class="eyebrow" id="counselSpeaker">将领请示</span><span class="freeze-badge">战局已冻结</span></div><h2 id="counselTitle" tabindex="-1"></h2><p id="counselWhy" class="counsel-why"></p><details class="counsel-map"><summary>查看战场 · 金圈标示相关部队</summary><canvas id="counselMap" width="960" height="560" aria-label="冻结中的战场，显示本次议策涉及的部队位置"></canvas></details><div id="counselOptions" aria-label="请明确选择一个方案"></div><p id="counselResume" class="counsel-resume"></p><p class="counsel-required">请选择军令。</p></dialog>
 <script>(()=>{
 /** Deterministic, renderer-independent battle model. Seconds and world pixels. */
 const WORLD={w:960,h:560};
@@ -144,35 +144,35 @@ function readySpeaker(s,preferred){return alive(s,preferred)?preferred:['yun','s
 function estimateReturn(u){let pts=u.x>500?(u.y<240?[[550,140],[425,125],[280,165],[240,430],[190,440]]:[[560,315],[465,315],[310,315],[240,430],[190,440]]):[[240,430],[190,440]];let x=u.x,y=u.y,d=0;for(const p of pts){d+=Math.hypot(p[0]-x,p[1]-y);[x,y]=p;}return Math.ceil(d/u.speed);}
 function describeCounsel(s,key){const shen=unit(s,'shen'),li=unit(s,'li'),yun=unit(s,'yun'),guard=unit(s,'guard'),archer=unit(s,'archer'),counter=unit(s,'counter');let speaker=null,title='',why='',options=[],highlight=[];
  if(key==='opening'){
-  speaker=readySpeaker(s,'shen');title='三军待命，先定谁来打开局面';why=`${['shen','li','yun'].every(id=>alive(s,id))?'三位将领尚未领到进军令。':'可领军的将领已变化，失效方案已撤下。'}${shen.build===0?'沈砚带盾阵，能替近旁友军挡箭。':'沈砚带刀兵，擅长给敌重步破甲。'}${li.build===0?'李峥是轻骑，能从浅滩隐蔽绕后。':'李峥是铁骑，走桥路可发挥冲锋，浅滩会减速。'}`;highlight=['guard','archer'];
-  if(alive(s,'shen')&&alive(s,'yun'))options.push(choice('anchor','沈砚：先压桥，李峥暂作后手','沈砚与云乔沿桥路推进；李峥留在原地。能先看清敌阵，但不会立刻处理高地弓手。',[orderAction('shen','front'),orderAction('yun','front'),...(alive(s,'li')?[orderAction('li','hold')]:[])],'shen'));
-  if(alive(s,'li')&&alive(s,'shen')&&alive(s,'yun'))options.push(choice('split',li.build===0?'李峥：双路并进，我走浅滩':'李峥：三军压桥，铁骑抢先冲阵',li.build===0?'轻骑北绕，沈砚与云乔压桥。更早威胁弓手，但李峥离主力保护更远。':'三将桥路合击。冲锋可打断重步，但高地弓手暂时无人牵制。',[orderAction('shen','front'),orderAction('yun','front'),orderAction('li',li.build===0?'north':'front')],'li'));
-  options.push(choice('decline','暂不采纳，仍按现有军令行动','不改变任何部队命令；若还没有下令，部队会继续待命。'));
+  speaker=readySpeaker(s,'shen');title='三军待命，请定进军之策。';why=`${['shen','li','yun'].every(id=>alive(s,id))?'':'可用将领有变。'}${shen.build===0?'沈砚：盾阵护军；':'沈砚：刀兵破甲；'}${li.build===0?'李峥：轻骑善绕后。':'李峥：铁骑善冲阵，涉水慢。'}`;highlight=['guard','archer'];
+  if(alive(s,'shen')&&alive(s,'yun'))options.push(choice('anchor','沈、云压桥，李峥待命','正面稳进；弓手无人牵制。',[orderAction('shen','front'),orderAction('yun','front'),...(alive(s,'li')?[orderAction('li','hold')]:[])],'shen'));
+  if(alive(s,'li')&&alive(s,'shen')&&alive(s,'yun'))options.push(choice('split',li.build===0?'双路并进，李峥绕后':'三军压桥，铁骑冲阵',li.build===0?'沈、云压桥；轻骑孤军北绕。':'冲锋压制重步；弓手无人牵制。',[orderAction('shen','front'),orderAction('yun','front'),orderAction('li',li.build===0?'north':'front')],'li'));
+  options.push(choice('decline','维持原令','不进军，继续待命。'));
  }else if(key==='bridge'){
-  speaker=readySpeaker(s,'shen');title='桥头正在吃紧，是否现在动用战术？';highlight=['shen','guard'];why=guard.alive?`沈砚现有 ${Math.ceil(shen.hp)} / ${shen.maxHp} 兵力，桥头重步仍有 ${Math.ceil(guard.hp)}。双方正在近距离交战；沈砚${formationLabel(shen)}，疲劳 ${Math.round(shen.fatigue||0)}。列阵不足会减攻减防，这是当前战况触发。`:'桥头重步已溃退，原来的危急条件已解除；失效选项已撤下。';
-  if(guard.alive&&skillPossible(s,'shen'))options.push(choice('shen-skill',shen.build===0?'沈砚：用「坚壁」顶住这一轮':'沈砚：用「破阵」凿开重步',shen.build===0?'消耗 1 军令。12 秒内附近友军减伤，保人但不额外增援。':'消耗 1 军令。下一次交锋打出破甲突击并击晕；换突破，不提供持续防护。',[skillAction('shen')],'shen'));
-  if(guard.alive&&yun.build===1&&skillPossible(s,'yun')&&dist(yun,shen)<155)options.push(choice('smoke','云乔：用烟幕护住近旁主力','消耗 1 军令。近旁友军暂时免箭伤并减轻其他伤害；只有烟幕游军且在保护范围内才有此案。',[skillAction('yun')],'yun'));
-  if(alive(s,'shen')&&shen.order!=='home')options.push(choice('withdraw-shen','让沈砚脱战回防，保存这支主力',`不耗军令。沈砚约 ${estimateReturn(shen)} 秒回到营寨；前线会失去盾阵或破甲支援。`,[orderAction('shen','home')],'shen'));
-  options.push(choice('decline','不用战术，继续当前交战','保留军令，不改变命令；当前承伤会继续发生。'));
+  speaker=readySpeaker(s,'shen');title='桥头吃紧，请准用战术。';highlight=['shen','guard'];why=guard.alive?`沈砚 ${Math.ceil(shen.hp)} / ${shen.maxHp} 兵；敌重步 ${Math.ceil(guard.hp)}；${formationLabel(shen)}，疲劳 ${Math.round(shen.fatigue||0)}。`:'敌重步已溃，险情解除。';
+  if(guard.alive&&skillPossible(s,'shen'))options.push(choice('shen-skill',shen.build===0?'施展坚壁':'施展破阵',shen.build===0?'1 军令 · 近旁友军减伤 12 秒。':'1 军令 · 破甲击晕，无持续防护。',[skillAction('shen')],'shen'));
+  if(guard.alive&&yun.build===1&&skillPossible(s,'yun')&&dist(yun,shen)<155)options.push(choice('smoke','云乔施放烟幕','1 军令 · 近旁友军免箭伤、减伤。',[skillAction('yun')],'yun'));
+  if(alive(s,'shen')&&shen.order!=='home')options.push(choice('withdraw-shen','沈砚回营',`约 ${estimateReturn(shen)} 秒抵营；前线失去沈砚支援。`,[orderAction('shen','home')],'shen'));
+  options.push(choice('decline','继续交战','保留军令；继续承伤。'));
  }else if(key==='flank'){
-  speaker=readySpeaker(s,'li');title='北侧出现机会，要李峥怎么做？';highlight=['li','archer'];
+  speaker=readySpeaker(s,'li');title='敌侧翼空虚，请准进击。';highlight=['li','archer'];
   const reached=li.alive&&li.order==='north'&&li.x>500;
-  why=reached?`李峥已越过北侧浅滩，${archer.alive?`高地弓手还有 ${Math.ceil(archer.hp)} 兵力。`:'高地弓手已溃退。'}他已经处在能影响侧翼的位置。`:`桥头重步正与我军交战，弓手侧翼仍空着。李峥${li.build===0?'的轻骑可走林间浅滩，不受涉水减速。':'的铁骑擅长正面冲锋，但走浅滩会明显减速。'}`;
-  if(reached&&li.build===0&&archer.alive&&skillPossible(s,'li'))options.push(choice('raid-skill','李峥：掠阵，扰乱弓手号令','消耗 1 军令。当前已经北路越河，能让弓手停射 15 秒；这枚军令之后不能再给他用。',[skillAction('li')],'li'));
-  if(alive(s,'li')&&li.order!=='north'&&archer.alive)options.push(choice('north',li.build===0?'派轻骑从浅滩绕后':'仍让铁骑从浅滩绕后',li.build===0?'不耗军令。轻骑离开主力，去处理高地弓手；前线暂时少一支输出。':'不耗军令。可以绕到弓手身后，但浅滩会让铁骑移速减半；并非最擅长的路线。',[orderAction('li','north')],'li'));
-  if(alive(s,'li')&&li.order!=='front')options.push(choice('front',li.build===1?'李峥：不走浅滩，铁骑压桥':'不赌侧翼，让李峥加入桥头合击','不耗军令。李峥向桥路主力靠拢；加强正面，放弃或延后当前侧翼机会。',[orderAction('li','front')],'li'));
-  options.push(choice('decline','不改变李峥现在的任务','不耗资源，保持当前命令。机会可能随敌我位置变化而消失，不会重复提醒。'));
+  why=reached?`李峥已过浅滩；${archer.alive?`敌弓手 ${Math.ceil(archer.hp)} 兵。`:'敌弓手已溃。'}`:`李峥${li.build===0?'轻骑涉水不减速。':'铁骑善冲锋，涉水减速。'}`;
+  if(reached&&li.build===0&&archer.alive&&skillPossible(s,'li'))options.push(choice('raid-skill','李峥掠阵','1 军令 · 弓手停射 15 秒，本局一次。',[skillAction('li')],'li'));
+  if(alive(s,'li')&&li.order!=='north'&&archer.alive)options.push(choice('north',li.build===0?'轻骑绕后':'铁骑绕后',li.build===0?'北绕袭弓手；正面少一军。':'北绕袭弓手；涉水移速减半。',[orderAction('li','north')],'li'));
+  if(alive(s,'li')&&li.order!=='front')options.push(choice('front',li.build===1?'铁骑压桥':'李峥压桥','加强正面；暂弃侧翼。',[orderAction('li','front')],'li'));
+  options.push(choice('decline','维持原令','侧翼机会可能错失。'));
  }else if(key==='reserve'){
-  speaker=readySpeaker(s,'li');title='敌阵已被牵动，唯一预备队押在哪里？';highlight=['li','gate','camp'];why=`${!archer.alive?'高地弓手已被拔掉。':`桥头重步剩余 ${Math.ceil(guard.hp)}，李峥位于${li.x>480?'河东侧':'河西侧'}。`}预备队当前${s.reserve==='ready'?'仍未投入':'已被使用'}。敌骑会在 42 秒从南路出动；这是破阵速度与守营之间的取舍。`;
-  if(s.reserve==='ready'&&s.t>=28){options.push(choice('flank',alive(s,'li')?'李峥：预备队投入北路，乘势破纛':'让预备队投入北路，乘势破纛','用掉唯一预备队，145 兵力绕后。之后无法改作守营；要靠回防或先破大纛解决反击。',[reserveAction('flank')],alive(s,'li')?'li':null));options.push(choice('defend','把预备队留在南路，三将继续攻','用掉唯一预备队，260 兵力守营。较稳，但北路没有额外兵力抢速度。',[reserveAction('defend')],alive(s,'shen')?'shen':null));}
-  options.push(choice('decline','现在不投入，保留最后一支兵','不耗预备队；眼前破阵机会不加兵。若敌骑真的逼近营寨，再处理新的军情。'));
+  speaker=readySpeaker(s,'li');title='敌阵已动，请定预备队去向。';highlight=['li','gate','camp'];why=`${!archer.alive?'敌弓手已溃。':`敌重步 ${Math.ceil(guard.hp)}；李峥在${li.x>480?'河东侧':'河西侧'}。`}预备队${s.reserve==='ready'?'未动':'已用'}；敌骑 42 秒由南路出动。`;
+  if(s.reserve==='ready'&&s.t>=28){options.push(choice('flank',alive(s,'li')?'预备队北绕':'预备队北绕','145 兵绕后；不可再派守营。',[reserveAction('flank')],alive(s,'li')?'li':null));options.push(choice('defend','预备队守营','260 兵守营；不可改派，北路无援。',[reserveAction('defend')],alive(s,'shen')?'shen':null));}
+  options.push(choice('decline','预备队待命','保留预备队；暂不增援。'));
  }else if(key==='fatigue'){
-  const u=['shen','li','yun'].map(id=>unit(s,id)).filter(u=>u.alive&&u.order!=='home'&&((u.fatigue||0)>=42||(u.formation==='disordered'&&u.hp/u.maxHp<.6))).sort((a,b)=>(b.fatigue||0)-(a.fatigue||0))[0];speaker=u?.id||readySpeaker(s,'shen');title='部队已疲劳或散乱，是否先保住阵形？';highlight=u?[u.id]:[];why=u?`${NAMES[u.id]}当前${formationLabel(u)}，疲劳 ${Math.round(u.fatigue||0)} / 100，兵力 ${Math.ceil(u.hp)}。疲劳会降低行军与攻击；未列成阵或被打散时，攻击和防护都偏弱。`:'提出建议的部队已经撤离，当前只需确认继续。';if(u)options.push(choice('rest','让这支部队回营整队休息',`不耗军令。${NAMES[u.id]}约 ${estimateReturn(u)} 秒回营；脱离交战并停下后恢复疲劳、重新列阵，前线会少一军。`,[orderAction(u.id,'home')],u.id));options.push(choice('decline','继续当前任务，接受疲劳与阵乱风险','不改变命令。部队并非无法作战，但现阶段攻防较弱；不需要反复纠正军令。'));
+  const u=['shen','li','yun'].map(id=>unit(s,id)).filter(u=>u.alive&&u.order!=='home'&&((u.fatigue||0)>=42||(u.formation==='disordered'&&u.hp/u.maxHp<.6))).sort((a,b)=>(b.fatigue||0)-(a.fatigue||0))[0];speaker=u?.id||readySpeaker(s,'shen');title='部队疲乱，请准回营整队。';highlight=u?[u.id]:[];why=u?`${NAMES[u.id]}当前${formationLabel(u)}，疲劳 ${Math.round(u.fatigue||0)} / 100，兵力 ${Math.ceil(u.hp)}。`:'部队已撤离。';if(u)options.push(choice('rest','回营整队',`${NAMES[u.id]}约 ${estimateReturn(u)} 秒回营休整；前线少一军。`,[orderAction(u.id,'home')],u.id));options.push(choice('decline','继续作战','维持原令；攻防偏弱。'));
  }else if(key==='camp'){
-  speaker=readySpeaker(s,'yun');title='南路敌骑正在逼近，营寨由谁来保？';highlight=['counter','camp'];const eta=counter?.alive?Math.max(0,Math.ceil((dist(counter,unit(s,'camp'))-65)/counter.speed)):0;why=counter?.alive?`敌反击骑已到南路，未受阻时约 ${eta} 秒接触营寨。敌骑当前${counter?formationLabel(counter):'未知阵形'}；行军转列阵需要时间。营寨还剩 ${Math.ceil(unit(s,'camp').hp)}；${s.reserve==='flank'?'预备队已押在北路，不能收回。':s.reserve==='defend'?'守营预备队已经承压。':'预备队仍未投入。'}`:'这支反击骑已经被截住，原有威胁消失；只需确认是否保持当前行动。';
-  if(counter?.alive&&s.reserve==='ready'&&s.t>=28)options.push(choice('defend','立即让预备队守营','用掉唯一预备队，三位将领不必离开进攻路线。',[reserveAction('defend')],speaker));
-  if(counter?.alive)for(const id of ['shen','li']){const u=unit(s,id);if(u.alive&&u.order!=='home'){const travel=estimateReturn(u);options.push(choice('return-'+id,`改派${NAMES[id]}回防`,`${NAMES[id]}约 ${travel} 秒抵营${travel>eta?'，可能晚于敌骑':''}；不耗军令，但前线会失去他的${id==='shen'?(u.build===0?'保护':'破甲'):(u.build===0?'侧翼输出':'冲锋')}。`,[orderAction(id,'home')],id));}}
-  options.push(choice('decline','不回防，继续抢破敌军大纛','保持当前进攻，接受营寨受击风险；只有抢先击破大纛才能免于失守。'));
+  speaker=readySpeaker(s,'yun');title='敌骑逼营，请定回防之将。';highlight=['counter','camp'];const eta=counter?.alive?Math.max(0,Math.ceil((dist(counter,unit(s,'camp'))-65)/counter.speed)):0;why=counter?.alive?`敌骑约 ${eta} 秒抵营；${counter?formationLabel(counter):'未知阵形'}；营寨 ${Math.ceil(unit(s,'camp').hp)}；${s.reserve==='flank'?'预备队北绕，不可收回。':s.reserve==='defend'?'守营兵已接敌。':'预备队未动。'}`:'敌骑已被截住，威胁解除。';
+  if(counter?.alive&&s.reserve==='ready'&&s.t>=28)options.push(choice('defend','预备队守营','用掉预备队；三将继续进攻。',[reserveAction('defend')],speaker));
+  if(counter?.alive)for(const id of ['shen','li']){const u=unit(s,id);if(u.alive&&u.order!=='home'){const travel=estimateReturn(u);options.push(choice('return-'+id,`${NAMES[id]}回防`,`${NAMES[id]}约 ${travel} 秒抵营${travel>eta?'，晚于敌骑':''}；前线失去${id==='shen'?(u.build===0?'保护':'破甲'):(u.build===0?'侧翼输出':'冲锋')}。`,[orderAction(id,'home')],id));}}
+  options.push(choice('decline','继续破纛','不回防；须先破纛，营寨可能失守。'));
  }
  options=options.filter(o=>o.actions.every(a=>canAction(s,a)));return {key,speaker,speakerName:speaker?NAMES[speaker]:'军报',title,why,options,highlight};
 }
@@ -231,7 +231,7 @@ function updateUI(){
  $('reserveState').textContent=s.reserve==='ready'?(s.t<28?`${Math.ceil(28-s.t)} 秒后可投入`:'尚未投入'):s.reserve==='defend'?'已投入守营':'已投入绕后';
  $('reserveDefend').disabled=$('reserveFlank').disabled=s.phase!=='battle'||s.t<28||s.reserve!=='ready'||counselLocked(s);
  $('reserveHint').textContent=s.reserve==='ready'?(s.t<28?'28 秒时可投入。守营能让三将持续进攻；绕后可抢先破纛，但南路会空虚。':'敌骑 42 秒出发，约 60 秒抵营。此时只选一次：守营换安稳，绕后换破阵速度。'):s.reserve==='defend'?'预备队已锁定南路。三将可以继续向敌军大纛推进。':'预备队已锁定北路。请安排回防，或赶在营寨失守前破纛。';
- const responses=s.counsel?.responses||[];const adSig=JSON.stringify([s.phase,responses.length,counselLocked(s)]);if(adSig!==lastAdvice){lastAdvice=adSig;$('proposals').innerHTML=`<p class="personality">关键军情会自动暂停并弹出议策，必须明确采纳或拒绝。相同问题不会反复催促。</p><p class="counsel-count">已回应 ${responses.length} 次${counselLocked(s)?' · 当前等待决断':''}</p>${responses.length?`<p class="personality">最近决断：${responses.at(-1).title}</p>`:''}`;}
+ const responses=s.counsel?.responses||[];const adSig=JSON.stringify([s.phase,responses.length,counselLocked(s)]);if(adSig!==lastAdvice){lastAdvice=adSig;$('proposals').innerHTML=`<p class="personality">军情有变，将领请示；拍板后执行。</p><p class="counsel-count">已回应 ${responses.length} 次${counselLocked(s)?' · 当前等待决断':''}</p>${responses.length?`<p class="personality">最近决断：${responses.at(-1).title}</p>`:''}`;}
  const newest=s.log.at(-1);if(newest&&lastLog!==JSON.stringify(newest)){lastLog=JSON.stringify(newest);$('lastLog').textContent=`${clock(newest.t)}　${newest.text}`;$('logs').innerHTML=[...s.log].reverse().map(l=>`<li class="${l.type}"><time>${clock(l.t)}</time>${l.text}</li>`).join('');}else if(!newest){$('lastLog').textContent='布阵尚未完成。普通军令不限次数、不消耗资源。';$('logs').innerHTML='';}
  if(s.outcome&&!resultShown)showResult();
 }
@@ -316,7 +316,7 @@ function syncCounsel(){
  if(!view){lastCounselSignature='';if(dialog.open)dialog.close();return;}
  if($('help').open)$('help').close();
  const signature=JSON.stringify(view);
- if(signature!==lastCounselSignature){lastCounselSignature=signature;$('counselSpeaker').textContent=`${view.speakerName} · 临阵请示 · ${clock(view.openedAt)}`;$('counselTitle').textContent=view.title;$('counselWhy').textContent=view.why;$('counselResume').textContent=view.pausedBefore?'回应后仍保持你之前的手动暂停。':'明确回应后，将领立即执行，战斗继续。';$('counselOptions').innerHTML=view.options.map(o=>`<button class="counsel-option" data-counsel-id="${view.id}" data-counsel-choice="${o.id}"><strong>${o.title}</strong><span>${o.tradeoff}</span></button>`).join('');}
+ if(signature!==lastCounselSignature){lastCounselSignature=signature;$('counselSpeaker').textContent=`${view.speakerName} · 临阵请示 · ${clock(view.openedAt)}`;$('counselTitle').textContent=view.title;$('counselWhy').textContent=view.why;$('counselResume').textContent=view.pausedBefore?'下令后仍暂停。':'下令即执行。';$('counselOptions').innerHTML=view.options.map(o=>`<button class="counsel-option" data-counsel-id="${view.id}" data-counsel-choice="${o.id}"><strong>${o.title}</strong><span>${o.tradeoff}</span></button>`).join('');}
  if(!dialog.open){dialog.showModal();$('counselTitle').focus({preventScroll:true});}
 }
 $('counselOptions').addEventListener('click',e=>{const b=e.target.closest('[data-counsel-choice]');if(!b)return;if(chooseCounsel(s,b.dataset.counselId,b.dataset.counselChoice)){acc=0;lastInspector='';lastCounselSignature='';updateUI();draw();}else{lastCounselSignature='';updateUI();}});
