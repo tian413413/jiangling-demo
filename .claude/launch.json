@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "jiangling-static",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "D:\\WORK\\jiangling-demo\\.claude\\serve.ps1", "-Port", "8765", "-Root", "D:\\WORK\\jiangling-demo\\public"],
+      "port": 8765
+    }
+  ]
+}
