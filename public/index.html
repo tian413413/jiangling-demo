@@ -1,0 +1,328 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#182e2b"><meta name="description" content="三位将领，两条路线，一支预备队。用可靠的军令检验你的战术与构筑。"><title>将令 V3 · 临阵议策</title><style>:root{--paper:#f4f1e8;--ink:#243b35;--muted:#7a8175;--line:#d4d6c8;--teal:#24574d;--gold:#b28c46;--red:#a85b4d;--panel:#faf8f0;--font:Inter,"Noto Sans CJK SC","Microsoft YaHei",system-ui,sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--font)}button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;border-radius:5px;padding:9px 12px;transition:background .15s,border-color .15s}button:hover:not(:disabled){background:#e8eadf;border-color:#899b88}button:focus-visible{outline:3px solid #b18d4e;outline-offset:3px}button:disabled{opacity:.42;cursor:not-allowed}button.primary{background:var(--ink);border-color:var(--ink);color:#fff;padding:11px 19px;min-width:140px}button.primary:hover:not(:disabled){background:#346052}button.quiet{border-color:transparent}button.small{font-size:12px;padding:4px 8px}.top{min-height:90px;display:flex;align-items:center;justify-content:space-between;padding:18px 3.5vw;border-bottom:1px solid var(--line);gap:20px}.brand{display:flex;align-items:center;gap:14px}.seal{background:var(--red);color:var(--paper);font:27px "Noto Serif CJK SC","Songti SC",serif;display:grid;place-items:center;width:42px;height:48px;border:3px double var(--paper);outline:1px solid var(--red)}h1{font:600 28px/1.2 "Noto Serif CJK SC","Songti SC",serif;margin:0;letter-spacing:.12em}h1 span{font:13px var(--font);letter-spacing:.18em;margin-left:12px;color:var(--muted)}.brand p{font-size:10px;letter-spacing:.2em;margin:6px 0 0;color:var(--muted)}.top-actions{display:flex;gap:8px;align-items:center}.top-actions .primary span{margin-left:18px}main{max-width:1600px;margin:auto;padding:0 3.5vw}.status-strip{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:12px}.status-strip strong{font-size:20px;font-weight:500;letter-spacing:.05em;font-variant-numeric:tabular-nums}.phase{color:var(--teal);font-weight:600;margin-right:16px}.phase::before{content:'';display:inline-block;background:currentColor;width:6px;height:6px;border-radius:50%;margin-right:7px}.muted{color:var(--muted)}.resources{display:flex;align-items:center;gap:9px}.resources b{font-size:19px;font-weight:500}.divider{height:18px;border-left:1px solid var(--line);margin:0 7px}.battle-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}.map-wrap{border:1px solid #bdc5b5;background:#e9ebdf;position:relative;overflow:hidden;border-radius:6px}.map-wrap canvas{display:block;width:100%;height:auto;touch-action:manipulation}.map-caption{display:flex;justify-content:space-between;gap:16px;padding:10px 15px;background:#e3e6da;font-size:11px;color:#566957;border-top:1px solid #cbd1c1}.general-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.general-card{text-align:left;background:#f8f6ee;border:1px solid var(--line);border-left:3px solid var(--unit);padding:12px 13px}.general-card.selected{background:#e5ebe0;border-color:#889c84;border-left-color:var(--unit)}.general-card .row{display:flex;justify-content:space-between;align-items:center;gap:8px}.general-card b{font-size:17px;letter-spacing:.08em}.general-card .build-label{font-size:11px;color:var(--muted);margin-top:4px}.general-card .order-label{font-size:11px;color:var(--teal);margin-top:8px}.hp-track{height:3px;background:#d9ddcf;margin-top:10px}.hp-track i{display:block;height:100%;background:var(--unit);transition:width .2s}.field-notes{display:flex;justify-content:space-between;gap:10px;font-size:10px;color:var(--muted);padding:12px 0}.command-panel{border-left:1px solid var(--line);padding-left:24px}h2{font-size:14px;letter-spacing:.04em;margin:0}.section-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.section-head>span{font-size:10px;color:var(--muted)}.general-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.general-heading h2{font:600 25px "Noto Serif CJK SC","Songti SC",serif}.tag{font-size:10px;color:var(--teal);border:1px solid #bac6b1;padding:3px 6px;border-radius:3px}.personality{font-size:11px;color:var(--muted);margin:4px 0 16px}.build-options{display:grid;grid-template-columns:1fr 1fr;gap:7px}.build-options button{text-align:left;font-size:12px;padding:8px}.build-options button.active{border-color:var(--teal);background:#e3eadf}.build-options small{display:block;font-size:9px;color:var(--muted);margin-top:4px}.build-desc{font-size:11px;line-height:1.7;min-height:40px;margin:10px 0 15px;color:#667361}.orders{display:grid;grid-template-columns:1fr 1fr;gap:7px}.orders button{font-size:12px;padding:8px}.orders button.active{border-color:var(--teal);color:var(--teal);background:#e3eadf}.skill-button{width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:9px;border-color:#bca777;background:#eee8d8}.skill-button small{font-size:10px;color:#8a774e}.skill-desc{font-size:10px;line-height:1.6;color:var(--muted);margin:7px 0 15px;min-height:32px}.reserve-panel{border-top:1px solid var(--line);padding-top:17px;margin-top:4px}.reserve-panel p{font-size:11px;line-height:1.7;color:#667361;margin:9px 0 12px}.split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.split button{font-size:11px;padding:9px 4px}.split small{display:block;font-size:9px;margin-top:4px;color:var(--muted)}.advice{margin-top:19px;border-top:1px solid var(--line);padding-top:17px}.advice-card{padding:11px 0;border-bottom:1px dotted var(--line)}.advice-card b{font-size:11px;color:var(--teal)}.advice-card p{font-size:11px;line-height:1.8;margin:5px 0;color:#667361}.advice-card button{font-size:10px;padding:4px 7px}.advice-card button.dismiss{float:right;border-color:transparent;color:var(--muted)}.journal{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:8px}.journal>button{width:100%;display:flex;align-items:center;gap:18px;text-align:left;font-size:11px;padding:11px 0}.journal>button span:first-child{flex:1;color:var(--muted)}.journal ol{padding:0 0 15px;margin:0;list-style:none;max-height:200px;overflow:auto}.journal li{padding:5px 0;font-size:11px;color:var(--muted)}.journal time{display:inline-block;min-width:55px;font-variant-numeric:tabular-nums}.journal li.danger{color:var(--red)}.journal li.decision,.journal li.success{color:var(--teal)}footer{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);padding:17px 0 25px}dialog{max-width:720px;width:calc(100% - 32px);border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:35px;box-shadow:0 20px 80px #1c312f40}dialog::backdrop{background:#192e2960;backdrop-filter:blur(2px)}dialog h2{font:600 27px "Noto Serif CJK SC",serif;margin-bottom:18px}dialog p{font-size:13px;color:#687364;line-height:1.8}.close{float:right;border:0;font-size:26px;padding:0 6px}.eyebrow{font-size:10px!important;color:var(--gold)!important;letter-spacing:.15em;margin-top:0}.help-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 25px;margin:25px 0}.help-grid b{font-size:13px}.help-grid p{font-size:12px;margin:7px 0}.help-foot{font-size:11px!important;border-top:1px solid var(--line);padding-top:16px}#results{margin:20px 0;background:#e6ebdf;border:1px solid #b8c6af;border-radius:7px;padding:25px}#results .result-heading{display:flex;justify-content:space-between;align-items:center;gap:20px}#results h2{font:600 28px "Noto Serif CJK SC",serif}#results p{font-size:12px;color:#667361}#results ul{font-size:12px;line-height:2;padding-left:18px}#results .compare{font-size:11px;border-top:1px solid #c5cfba;padding-top:14px}#results .result-actions{display:flex;gap:10px;margin-top:15px}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-size:12px;padding:10px 18px;border-radius:5px;z-index:10;box-shadow:0 4px 30px #0002}.battle-ended .map-wrap{border-color:#8da484}button[hidden],[hidden]{display:none!important}@media(min-width:1550px){main{padding:0 40px}.top{padding:18px max(40px,calc((100vw - 1520px)/2))}.battle-layout{grid-template-columns:minmax(0,1fr) 310px}}@media(max-width:1100px){main{padding:0 22px}.top{padding:16px 22px}.battle-layout{grid-template-columns:minmax(0,1fr) 265px;gap:17px}.command-panel{padding-left:17px}.top-actions{gap:2px}.top-actions .quiet{font-size:12px;padding:8px}.field-notes{flex-wrap:wrap}.status-strip #objective{font-size:10px;max-width:240px}.general-card{padding:9px}.general-card b{font-size:15px}}@media(max-width:830px){.battle-layout{display:flex;flex-direction:column;gap:18px}.battle-column{width:100%}.command-panel{width:100%;padding:0;border:0;display:grid;grid-template-columns:1fr 1fr;gap:20px}.advice{grid-column:1/-1;margin:0;padding-top:15px}.reserve-panel{border-top:0;margin:0;padding-top:0}.top{flex-wrap:wrap;gap:12px;min-height:0}.brand{gap:12px}.brand h1{font-size:24px}.top-actions{margin-left:auto}.top-actions .primary{min-width:120px;padding:9px}.top-actions .primary span{margin-left:8px}#helpButton{display:none}.status-strip{flex-wrap:wrap;padding:12px 0;gap:7px}#objective{order:3;flex-basis:100%;max-width:none!important}.general-list{gap:7px}.map-caption{font-size:9px}.field-notes{font-size:9px}footer{flex-direction:column;gap:7px}#results{padding:20px}.help-grid{grid-template-columns:1fr;gap:10px}}@media(max-width:480px){main{padding:0 12px}.top{padding:15px 12px}.brand h1 span{font-size:11px;margin-left:4px}.brand p{font-size:8px}.top-actions{width:100%;justify-content:space-between}.top-actions .quiet{padding:7px;font-size:11px}.map-caption{padding:7px}.map-caption #mapHint{max-width:65%;text-align:right}.general-card{padding:8px 7px}.general-card .row{align-items:start}.general-card .row>span{font-size:9px}.general-card b{font-size:14px}.general-card .build-label{font-size:9px}.general-card .order-label{font-size:9px}.command-panel{gap:15px;grid-template-columns:1fr}.advice{grid-column:auto}.reserve-panel{border-top:1px solid var(--line);padding-top:15px}.field-notes{gap:5px}.result-heading{align-items:start!important;flex-direction:column;gap:5px!important}dialog{padding:25px}.help-grid p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.mobile-map-hint{display:none}@media(max-width:600px){.top{position:sticky;top:0;z-index:5;background:var(--paper)}.map-wrap{overflow-x:auto}.map-wrap canvas{min-width:700px}.map-caption{min-width:700px}.mobile-map-hint{display:block;font-size:10px;color:var(--muted);padding:5px 0 8px}}
+
+/* V3 mandatory council: only explicit choices unlock the battlefield. */
+.condition-label{font-size:10px;color:#7a806d;margin-top:5px}.unit-condition{font-size:10px;line-height:1.8;padding:8px 10px;background:#e7ebdf;border:1px solid #d2dac6;border-radius:4px;color:#69785e;margin:0 0 13px}.counsel-count{font-size:11px;color:var(--teal)}
+#counselDialog{width:min(690px,calc(100% - 24px));max-width:690px;max-height:88vh;max-height:88dvh;overflow-y:auto;overscroll-behavior:contain;padding:26px 28px;border-top:4px solid var(--gold);scrollbar-gutter:stable}#counselDialog::backdrop{background:#182f287d;backdrop-filter:blur(1px)}.counsel-topline{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:14px}.counsel-topline .eyebrow{margin:0;font-size:10px!important}.freeze-badge{color:var(--teal);font-size:10px;padding:4px 7px;border:1px solid #aebfa4;border-radius:4px;white-space:nowrap}#counselDialog h2{font-size:24px;line-height:1.5;margin:0 0 13px}#counselTitle:focus{outline:0}.counsel-why{font-size:12px!important;line-height:1.85!important;margin:0 0 15px!important}.counsel-map{font-size:10px;color:#718163;margin-bottom:15px}.counsel-map summary{cursor:pointer;min-height:30px;display:flex;align-items:center}.counsel-map canvas{display:block;width:100%;height:auto;margin-top:6px;border:1px solid #c4d0b9;border-radius:4px}#counselOptions{display:grid;gap:9px}.counsel-option{display:flex;flex-direction:column;text-align:left;width:100%;padding:13px 15px;background:#f5f4e9;border-color:#bfccb3;min-height:64px}.counsel-option strong{font-size:13px;font-weight:600;line-height:1.6;color:#315c48}.counsel-option span{font-size:11px;color:#718069;margin-top:5px;line-height:1.8}.counsel-option:hover:not(:disabled){background:#e4ebda;border-color:#78936c}.counsel-option:focus-visible{outline:3px solid var(--gold);outline-offset:2px}.counsel-resume{font-size:10px!important;color:var(--teal)!important;margin:14px 0 4px!important}.counsel-required{font-size:9px!important;color:var(--muted)!important;margin:0!important}.counsel-open{overflow:hidden}.counsel-open #gameHeader,.counsel-open #gameMain{pointer-events:none;user-select:none}
+@media(max-width:600px){#counselDialog{padding:20px 17px;width:calc(100% - 16px);max-height:90vh;max-height:90dvh;border-radius:6px}#counselDialog h2{font-size:20px;line-height:1.5}.counsel-topline{gap:8px;margin-bottom:12px}.counsel-topline .eyebrow{font-size:9px!important;letter-spacing:.04em}.freeze-badge{font-size:9px;padding:3px 5px}.counsel-option{padding:12px;min-height:76px}.counsel-option strong{font-size:13px}.counsel-option span{font-size:11px}.counsel-why{font-size:11px!important}.condition-label{font-size:9px}.map-wrap canvas{min-width:700px}.counsel-map canvas{min-width:0;width:100%;}.counsel-map summary{min-height:38px}}
+</style></head><body>
+<header id="gameHeader" class="top"><div class="brand"><span class="seal">令</span><div><h1>将令 <span>V3 · 临阵议策</span></h1><p>实时战场 · 将领请示 · 阵型与疲劳</p></div></div><div class="top-actions"><button id="helpButton" class="quiet">怎么玩</button><button id="restart" class="quiet">重开同局</button><button id="rebuild" class="quiet">调整构筑</button><button id="play" class="primary">开始战役 <span>↗</span></button></div></header>
+<main id="gameMain"><section class="status-strip" aria-label="战役状态"><div><span id="phase" class="phase">布阵中</span><strong id="timer">00:00</strong><span class="muted"> / 02:00</span></div><div id="objective">目标：保住营寨，在敌援合围前拔掉大纛</div><div class="resources">军令 <b id="supply">3</b><span class="divider"></span><button id="speed" class="quiet small">速度 ×1</button></div></section>
+<div class="battle-layout"><div class="battle-column"><span class="mobile-map-hint">左右滑动地图查看两翼；上方可随时暂停。</span><div class="map-wrap"><canvas id="map" width="960" height="560" aria-label="临河战场：西侧我军营寨，中央桥路，北侧浅滩，东侧敌军大纛；可点击将领选择。"></canvas><div class="map-caption"><span>■ 将军　▪ 独立亲兵</span><span id="mapHint">点击将领，分派路线；命令会一直执行。</span></div></div><div id="generalList" class="general-list" aria-label="选择将领"></div><div class="field-notes"><span>桥路：短，但重步把守</span><span>北路：绕过桥头，铁骑涉水减速</span><span>行军纵队 → 3 秒列阵；脱战固守可休整</span></div></div>
+<aside class="command-panel"><section id="inspector" aria-label="将领指挥"></section><section class="reserve-panel"><div class="section-head"><h2>唯一的预备队</h2><span id="reserveState">待命</span></div><p id="reserveHint">28 秒时可投入。守营能让三将持续进攻；绕后可抢先破纛，但南路会空虚。</p><div class="split"><button id="reserveDefend">守住营寨<small>260 兵力 · 固守南路</small></button><button id="reserveFlank">投入绕后<small>145 兵力 · 约 20 秒到敌后</small></button></div></section><section class="advice"><div class="section-head"><h2>临阵军议</h2><span>必须明确回应</span></div><div id="proposals"></div></section></aside></div>
+<section class="journal"><button id="journalToggle" class="quiet">军报 <span id="lastLog">布阵尚未完成。普通军令不限次数、不消耗资源。</span><span>⌄</span></button><ol id="logs" hidden></ol></section>
+<section id="results" hidden></section><footer><span>确定性战局 · 无随机违令 · 无战中成长</span><span>空格 暂停 / 继续　　1 / 2 / 3 选择将领</span></footer></main>
+<dialog id="help"><button id="closeHelp" class="close" aria-label="关闭说明">×</button><p class="eyebrow">一局约两分钟</p><h2>你是主公，不是纠错员。</h2><p>将领会根据正在发生的战况主动请示，战斗自动暂停。必须明确选择采纳、改派或拒绝，然后由他们执行；相同问题不会反复催促。</p><div class="help-grid"><div><b>01 / 构筑与分工</b><p>点击三位将领，为每人选一套构筑。再选择桥路、北路或守营；也可开战后下令。</p></div><div><b>02 / 议策必有回应</b><p>军议弹出后，时间与后台操作全部冻结。只能明确选择一个方案，包括拒绝；不能用空格或关闭按钮跳过。回应后恢复原先的暂停状态。</p></div><div><b>03 / 留兵，还是抢攻？</b><p>28 秒开放预备队，投入后不能改派。敌骑 42 秒出现、约 60 秒抵营。留守更稳；绕后更快，却要回防或抢先取胜。</p></div><div><b>04 / 阵型与疲劳</b><p>行军是长纵队，停下后需要 3 秒展开战阵。未列阵与被冲散时攻防下降，但并非不能还手；疲劳会影响行军与战斗。脱离交战后固守可恢复疲劳；正在近战时不会凭空休息，重复下令也不能瞬间重整。</p></div></div><p class="help-foot">分散的小方块是亲兵，不装在军团框里；较大的方块是将领。盾阵横列、弓阵分排、骑兵楔阵随真实状态展开。兵力耗尽表示溃退；胜负看营寨和敌军大纛，不要求清场。大纛耐久较高，需持续攻击。</p><button id="helpDone" class="primary">明白了，去布阵</button></dialog>
+<dialog id="counselDialog" aria-labelledby="counselTitle" aria-describedby="counselWhy" aria-modal="true"><div class="counsel-topline"><span class="eyebrow" id="counselSpeaker">将领请示</span><span class="freeze-badge">战局已冻结</span></div><h2 id="counselTitle" tabindex="-1"></h2><p id="counselWhy" class="counsel-why"></p><details class="counsel-map"><summary>查看当前战场 · 金圈为相关部队</summary><canvas id="counselMap" width="960" height="560" aria-label="冻结中的战场，显示本次议策涉及的部队位置"></canvas></details><div id="counselOptions" aria-label="请明确选择一个方案"></div><p id="counselResume" class="counsel-resume"></p><p class="counsel-required">必须明确回应；不能关闭或用空格跳过。</p></dialog>
+<script>(()=>{
+/** Deterministic, renderer-independent battle model. Seconds and world pixels. */
+const WORLD={w:960,h:560};
+const LOADOUTS={
+ shen:[{name:'守桥盾阵',tag:'稳守 · 护友',desc:'近旁友军受箭伤减少 55%；适合压桥，为弓手挡箭。',hp:260,atk:11,range:45,speed:20,armor:.48,skill:'坚壁',skillDesc:'12 秒内，附近友军承伤减少 65%。'},
+ {name:'凿阵刀兵',tag:'破甲 · 合击',desc:'命中后破甲；云乔的弓箭能借破绽增伤。身板较薄。',hp:145,atk:14,range:43,speed:24,armor:.12,skill:'破阵',skillDesc:'下一次交锋造成 70 点破甲伤害，且眩晕目标 4 秒。'}],
+ li:[{name:'疾行轻骑',tag:'浅滩 · 绕后',desc:'不受浅滩减速，林间隐蔽避箭；北路越河后伤害提高 45%。',hp:170,atk:14,range:45,speed:34,armor:.08,skill:'掠阵',skillDesc:'12 秒加速；从北路越河后使用，会扰乱敌弓手 15 秒。'},
+ {name:'铁骑冲锋',tag:'大路 · 突击',desc:'首度接敌冲锋 65 点并击晕；走浅滩则移速减半。',hp:165,atk:12,range:45,speed:29,armor:.22,skill:'再冲锋',skillDesc:'重整一次冲锋：下次接敌造成 65 点伤害与 4 秒眩晕。'}],
+ yun:[{name:'连弩压制',tag:'远射 · 破甲联动',desc:'远距离攻击并压低目标攻势；对破甲目标额外增伤 40%。',hp:105,atk:14,range:165,speed:22,armor:0,skill:'齐射',skillDesc:'对射程内目标造成 55 点伤害；可利用沈砚破甲。'},
+ {name:'烟幕游军',tag:'掩护 · 随军',desc:'附近友军受箭伤减少 65%；适合护送刀兵或冲骑渡河。',hp:135,atk:7,range:110,speed:26,armor:.05,skill:'烟幕',skillDesc:'15 秒内，附近友军免疫箭伤、其他承伤减少 35%。'}]
+};
+const NAMES={shen:'沈砚',li:'李峥',yun:'云乔',reserve:'预备队',guard:'桥头重步',archer:'高地弓手',counter:'敌反击骑',gate:'敌军大纛',camp:'我军营寨',reinforce:'敌援军'};
+const PERSONALITY={shen:'审慎，不冒无谓之险',li:'果决，愿争转瞬战机',yun:'善谋，先看局势再出手'};
+const ROUTES={front:[[310,315],[465,315],[585,315],[810,295]],north:[[280,165],[425,125],[560,140],[690,210],[810,285]],home:[[240,430],[190,440]]};
+const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+const point=(a)=>({x:a[0],y:a[1]});
+function createState(builds={shen:0,li:0,yun:0},options={}){
+ const s={version:3,formationsEnabled:options.formationsEnabled!==false,counsel:{enabled:options.counselEnabled!==false,active:null,seen:[],responses:[],serial:0,nextAt:0,resolving:false},builds:{...builds},phase:'prep',paused:true,t:0,limit:120,selected:'shen',reserve:'ready',supply:3,units:[],log:[],events:[],effects:[],outcome:null,metrics:{frontDamage:0,northDamage:0,shieldSaved:0,smokeSaved:0,brokenHits:0,charges:0,reserveDamage:0,campDamage:0},nextId:0};
+ const starts={shen:[155,300],li:[170,200],yun:[115,390]};
+ for(const id of ['shen','li','yun']){const b=LOADOUTS[id][builds[id]];s.units.push({id,team:'ally',...b,...point(starts[id]),maxHp:b.hp,build:builds[id],order:'wait',route:[],routeIndex:0,used:false,buffUntil:0,charge:(id==='li'&&builds.li===1),damage:0,taken:0,alive:true});}
+ s.units.push({id:'guard',team:'enemy',x:530,y:315,hp:360,maxHp:360,atk:17,range:52,speed:10,armor:.53,order:'guard',alive:true,damage:0,taken:0});
+ s.units.push({id:'archer',team:'enemy',x:640,y:215,hp:145,maxHp:145,atk:11,range:205,speed:0,armor:.05,order:'hold',alive:true,damage:0,taken:0});
+ s.units.push({id:'gate',team:'enemy',x:825,y:290,hp:1100,maxHp:1100,atk:0,range:0,speed:0,armor:.10,order:'hold',alive:true,damage:0,taken:0,structure:true});
+ s.units.push({id:'camp',team:'ally',x:105,y:455,hp:180,maxHp:180,atk:0,range:0,speed:0,armor:0,order:'hold',alive:true,damage:0,taken:0,structure:true});
+ for(const u of s.units)initFormation(s,u);
+ return s;
+}
+function unit(s,id){return s.units.find(u=>u.id===id)}
+function note(s,text,type='info'){s.log.push({t:s.t,text,type});if(s.log.length>80)s.log.shift();}
+function start(s){if(s.phase!=='prep')return false;s.phase='battle';s.paused=false;note(s,'战役开始。将领按已下军令行动；关键军情会自动暂停，等待主公决断。');pollCounsel(s);return true;}
+function setPaused(s,p){if(s.phase!=='battle'||counselLocked(s))return false;s.paused=p;return true;}
+function command(s,id,order){if(counselLocked(s))return false;const u=unit(s,id);if(!u||u.team!=='ally'||u.structure||!u.alive||s.outcome||!['front','north','home','hold'].includes(order))return false;
+ if(u.order===order)return true;
+ const redirect=u.target&&u.order!==order&&['front','north'].includes(order);u.order=order;u.routeIndex=0;u.target=null;u.redirectUntil=0;if(redirect)u.redirectUntil=s.t+6;
+ if(order==='hold')u.route=[];
+ else if(order==='home'){
+  u.route=u.x>500?(u.y<240?[[550,140],[425,125],[280,165],[240,430],[190,440]]:[[560,315],[465,315],[310,315],[240,430],[190,440]]):[[240,430],[190,440]];
+ }else if(u.x>550){u.route=order==='north'?[[690,210],[810,285]]:[[650,315],[810,295]];}
+ else u.route=ROUTES[order].map(p=>[...p]);
+ note(s,`${NAMES[id]}领命：${{front:'由桥路推进',north:'从浅滩绕后',home:'回防营寨',hold:'原地固守'}[order]}。`);return true;}
+function commitReserve(s,choice){if(counselLocked(s))return false;if(s.phase!=='battle'||s.outcome||s.reserve!=='ready'||s.t<28||!['flank','defend'].includes(choice))return false;s.reserve=choice;
+ const u={id:'reserve',team:'ally',x:choice==='flank'?275:180,y:choice==='flank'?160:440,hp:choice==='flank'?145:260,maxHp:choice==='flank'?145:260,atk:choice==='flank'?14:22,range:45,speed:31,armor:.22,order:'hold',route:[],routeIndex:0,damage:0,taken:0,alive:true,build:0};initFormation(s,u);s.units.push(u);
+ command(s,'reserve',choice==='flank'?'north':'home');note(s,choice==='flank'?'预备队已投入绕后，无法再用于守营。':'预备队已投入守营，三将可继续进攻。','decision');return true;}
+function skill(s,id){if(counselLocked(s))return false;const u=unit(s,id);if(s.phase!=='battle'||s.outcome||!u||!u.alive||u.used||s.supply<1||!LOADOUTS[id])return false;
+ const target=s.units.filter(v=>v.team==='enemy'&&v.alive&&dist(u,v)<u.range+45).sort((a,b)=>dist(u,a)-dist(u,b))[0];
+ if(id==='yun'&&u.build===0&&!target)return false;
+ u.used=true;s.supply--;u.buffUntil=s.t+({shen:12,li:12,yun:15}[id]);
+ if(id==='shen'&&u.build===1)u.burst=true;
+ if(id==='li'&&u.build===1)u.charge=true;
+ if(id==='li'&&u.build===0&&u.x>480&&u.order==='north'){unit(s,'archer').stunUntil=s.t+15;disruptFormation(s,unit(s,'archer'),15);note(s,'李峥切断号令：敌弓手停射 15 秒。','decision');}
+ if(id==='yun'&&u.build===0)hurt(s,u,target,55,true);
+ note(s,`${NAMES[id]}施展「${LOADOUTS[id][u.build].skill}」，消耗 1 枚军令。`,'decision');return true;}
+function hurt(s,a,b,base,burst=false){if(!b.alive)return;let amount=base;let armor=b.armor||0;if(s.formationsEnabled&&!b.structure){initFormation(s,b);armor*=b.formation==='formed'?1:b.formation==='deploying'?.35:.2;amount*=(b.formation==='formed'?1:b.formation==='deploying'?1.22:1.35)*(1+b.fatigue/100*.18);}
+ if(a.team==='ally'&&a.id==='shen'&&a.build===1&&!b.structure){b.brokenUntil=s.t+3;armor=0;}
+ if(b.brokenUntil>s.t){armor=0;if(a.id==='yun'&&a.build===0){amount*=1.4;s.metrics.brokenHits+=base;}}
+ if(a.order==='north'&&a.x>500){amount*=a.id==='li'&&a.build===0?1.45:1.15;}
+ 
+ if(a.id==='yun'&&a.build===0)b.suppressedUntil=s.t+1;
+ amount*=1-armor;
+ if(a.id==='archer'){
+  const shield=s.units.find(u=>u.id==='shen'&&u.build===0&&u.alive&&dist(u,b)<150);const smoke=s.units.find(u=>u.id==='yun'&&u.build===1&&u.alive&&dist(u,b)<155);
+  if(smoke){const f=smoke.buffUntil>s.t?0:.35;s.metrics.smokeSaved+=amount*(1-f);amount*=f;}
+  else if(shield){s.metrics.shieldSaved+=amount*.55;amount*=.45;}
+ }
+ const shieldBuff=s.units.some(u=>u.id==='shen'&&u.build===0&&u.alive&&u.buffUntil>s.t&&dist(u,b)<150);
+ const smokeBuff=s.units.some(u=>u.id==='yun'&&u.build===1&&u.alive&&u.buffUntil>s.t&&dist(u,b)<155);
+ if(b.team==='ally'&&shieldBuff){s.metrics.shieldSaved+=amount*.65;amount*=.35;}else if(b.team==='ally'&&smokeBuff&&a.id!=='archer'){s.metrics.smokeSaved+=amount*.35;amount*=.65;}
+ amount=Math.min(b.hp,amount);if(a.team==='ally'){if(a.order==='north'&&a.x>500)s.metrics.northDamage+=amount;else s.metrics.frontDamage+=amount;}b.hp=Math.max(0,b.hp-amount);a.damage=(a.damage||0)+amount;b.taken=(b.taken||0)+amount;if(b.id==='camp')s.metrics.campDamage+=amount;if(a.id==='reserve')s.metrics.reserveDamage+=amount;
+ if(burst)s.effects.push({x:b.x,y:b.y,t:s.t,label:'突击',color:'#e7bb69'});
+ if(s.formationsEnabled&&b.alive&&!b.structure&&b.hp>0&&b.hp<b.formHealthBaseline*.75&&s.t-b.lastDisrupted>10){disruptFormation(s,b,2.5);b.formHealthBaseline=b.hp;}
+ if(b.hp<=0&&b.alive){b.alive=false;note(s,`${NAMES[b.id]||b.id}${b.structure?'失守':'溃退'}。`,b.team==='ally'?'danger':'success');}
+}
+function move(u,p,s,dt){initFormation(s,u);let speed=u.speed;if(s.formationsEnabled)speed*=Math.max(.55,1-u.fatigue/100*.35)*(u.disorderUntil>s.t?.7:1);if(u.id==='li'&&u.build===1&&u.order==='north'&&u.x>310&&u.x<570)speed*=.5;if(u.id==='li'&&u.build===0&&u.buffUntil>s.t)speed*=1.5;
+ const dx=p[0]-u.x,dy=p[1]-u.y,d=Math.hypot(dx,dy),step=speed*dt;if(d>.1&&s.formationsEnabled){u.facing={x:dx/d,y:dy/d};marchFormation(s,u,dt);u.movedAt=s.t;}if(d<=step){u.x=p[0];u.y=p[1];return true;}u.x+=dx/d*step;u.y+=dy/d*step;return false;}
+function event(s,id,t,fn){if(s.t>=t&&!s.events.includes(id)){s.events.push(id);fn();}}
+function step(s,dt){if(checkBattleEnd(s))return;if(s.phase!=='battle'||s.outcome)return;pollCounsel(s);if(counselLocked(s)||s.paused)return;s.t=+(s.t+dt).toFixed(5);s.effects=s.effects.filter(e=>s.t-e.t<1.6);
+ event(s,'scout',28,()=>note(s,'斥候：敌骑将在 42 秒从南路出动，约 60 秒抵营。预备队尚可二选一。','decision'));
+ event(s,'counter',42,()=>{s.units.push({id:'counter',team:'enemy',x:855,y:475,hp:215,maxHp:215,atk:24,range:45,speed:40,armor:.2,order:'raid',alive:true,damage:0,taken:0});note(s,'敌反击骑已从南路出动！','danger');});
+ event(s,'pressure',90,()=>{s.units.push({id:'reinforce',team:'enemy',x:865,y:475,hp:320,maxHp:320,atk:27,range:50,speed:38,armor:.25,order:'raid',alive:true,damage:0,taken:0});note(s,'敌援军抵达南路。请尽快拔掉敌军大纛。','danger');});
+ for(const u of [...s.units]){if(!u.alive||u.structure)continue;initFormation(s,u);u.target=null;if(u.stunUntil>s.t){if(s.formationsEnabled){u.formation='disordered';u.deployProgress=0;u.formationBlend=Math.max(.15,u.formationBlend-dt);u.fatigue=Math.max(0,u.fatigue-dt*.3);}continue;}
+ const foes=s.units.filter(v=>v.alive&&v.team!==u.team&&!(u.id==='archer'&&v.id==='li'&&v.build===0&&v.order==='north'&&v.y<175)&&dist(u,v)<=u.range+(v.structure?22:15));
+ foes.sort((a,b)=> (a.structure?35:0)+dist(u,a)-(b.structure?35:0)-dist(u,b));
+ const withdrawing=u.team==='ally'&&((u.order==='home'&&u.routeIndex<u.route.length)||u.redirectUntil>s.t);const target=withdrawing?null:foes[0];if(target){u.target=target.id;settleFormation(s,u,dt);if(s.formationsEnabled)u.fatigue=Math.min(100,u.fatigue+dt*.3);
+  if(u.charge){hurt(s,u,target,65,true);target.stunUntil=s.t+4;disruptFormation(s,target,4);u.charge=false;s.metrics.charges++;note(s,`${NAMES[u.id]}冲锋命中${NAMES[target.id]}。`,'success');}
+  if(u.burst){hurt(s,u,target,70,true);target.stunUntil=s.t+4;disruptFormation(s,target,4);target.brokenUntil=s.t+12;u.burst=false;}
+  hurt(s,u,target,u.atk*dt*(u.suppressedUntil>s.t?.72:1)*formationAttack(s,u));
+ }else if(u.team==='ally'&&u.route?.length&&u.routeIndex<u.route.length){if(move(u,u.route[u.routeIndex],s,dt))u.routeIndex++;}
+ else if(u.order==='raid'){move(u,[110,455],s,dt);}
+ else if(u.id==='guard'&&s.t>22){move(u,[130,315],s,dt);}
+ if(!u.target&&u.movedAt!==s.t&&s.formationsEnabled){settleFormation(s,u,dt);u.fatigue=Math.max(0,u.fatigue-dt*(['hold','wait','home'].includes(u.order)?3.5:1.8));}
+ }
+ if(!unit(s,'camp').alive)finish(s,'loss','营寨失守，进攻被迫中止。');
+ else if(!unit(s,'gate').alive)finish(s,'win','敌军大纛已破，敌军撤退。');
+ else if(s.t>=s.limit)finish(s,'loss','援军完成合围，未能在 120 秒内破阵。');
+ if(!s.outcome)pollCounsel(s);
+}
+function finish(s,result,reason){if(s.counsel){s.counsel.active=null;s.counsel.resolving=false;}s.outcome={result,reason,t:s.t};s.phase='ended';s.paused=true;note(s,reason,result==='win'?'success':'danger');}
+function proposals(s){if(s.phase==='prep')return[{id:'prep',who:'云乔',text:'先定分工，再开战。桥路短但有重步；浅滩能绕弓手，铁骑却会减速。'}];if(s.outcome)return[];const out=[];
+ const shen=unit(s,'shen'),li=unit(s,'li'),yun=unit(s,'yun'),counter=unit(s,'counter'),archer=unit(s,'archer');
+ if(s.t<24&&shen.alive&&shen.order==='wait')out.push({id:'front',who:'沈砚',text:shen.build===0?'我领盾阵压桥，替云乔挡箭。北路可交给轻兵。':'我从桥路凿开重步的甲，云乔的连弩便能跟上。',general:'shen',order:'front',action:'令沈砚压桥'});
+ if(li.alive&&li.order==='wait'&&archer.alive)out.push({id:'north',who:'李峥',text:li.build===0?'北侧浅滩无重兵。我可绕过桥头，先拔高地弓手。':'浅滩会拖慢铁骑。让我从桥路冲锋，但北侧弓手仍需有人处理。',general:'li',order:li.build===0?'north':'front',action:li.build===0?'令李峥绕后':'令李峥冲桥'});
+ if(yun.alive&&yun.order==='wait')out.push({id:'support',who:'云乔',text:yun.build===0?'我在桥后射击。若沈砚用刀兵破甲，连弩收益更大。':'我随主力过桥，以烟遮箭。别把各军分得太散。',general:'yun',order:'front',action:'令云乔跟进'});
+ if(s.t>=28&&s.reserve==='ready')out.unshift({id:'reserve',who:'沈砚',text:'敌骑约 60 秒抵营。预备队守营可让三将不停攻；若投入绕后，就要分将回防，或抢先破纛。'});
+ if(counter?.alive&&s.reserve==='flank'&&shen.alive&&shen.order!=='home')out.unshift({id:'home',who:'沈砚',text:'预备队已去北路，南路敌骑正在逼近。我可回防，但前线会少一支主力。',general:'shen',order:'home',action:'令沈砚回防'});
+ return out.slice(0,3);}
+function summarize(s){const living=s.units.filter(u=>['shen','li','yun'].includes(u.id)&&u.alive).length;const m=s.metrics;const lines=[];
+ lines.push(s.reserve==='ready'?'预备队未投入：这支兵力没有改变任何一处战局。':s.reserve==='defend'?'预备队守营：三将得以留在前线；代价是北路少一支突击兵。':'预备队绕后：增加破阵兵力；营寨必须靠回防或抢先胜利来保护。');
+ if(m.shieldSaved>3)lines.push(`盾阵实际拦下约 ${Math.round(m.shieldSaved)} 点伤害。`);
+ if(m.smokeSaved>3)lines.push(`烟幕实际抵消约 ${Math.round(m.smokeSaved)} 点伤害。`);
+ if(m.brokenHits>3)lines.push(`刀兵破甲 × 连弩联动：${Math.round(m.brokenHits)} 点基础箭伤吃到了破甲增益。`);
+ if(m.charges)lines.push(`铁骑 / 破阵冲击触发 ${m.charges} 次；不是随机暴击。`);
+ lines.push(`北路输出 ${Math.round(m.northDamage)}，营寨承伤 ${Math.round(m.campDamage)}；${living}/3 位将领未溃退。`);
+ if(s.outcome?.result==='loss')lines.push(!unit(s,'camp').alive?'失利直接原因：敌军攻破营寨。试试预备队守营，或提早回防。':'失利直接原因：推进速度不足。试试轻骑北路拆弓手，或用刀兵与连弩破甲合击。');
+ if(s.counsel?.responses.length)lines.push(`本局明确回应 ${s.counsel.responses.length} 次军议：${s.counsel.responses.map(r=>r.title).join('；')}。`);return lines;}
+
+// V3: mandatory, state-triggered counsel. No battle outcome is precomputed here.
+function counselLocked(s){return !!s.counsel?.active&&!s.counsel.resolving;}
+function checkBattleEnd(s){if(s.outcome){if(s.counsel)s.counsel.active=null;return true;}if(s.phase!=='battle')return false;if(!unit(s,'camp')?.alive){finish(s,'loss','营寨失守，进攻被迫中止。');return true;}if(!unit(s,'gate')?.alive){finish(s,'win','敌军大纛已破，敌军撤退。');return true;}return false;}
+const alive=(s,id)=>!!unit(s,id)?.alive;
+const skillPossible=(s,id)=>{const u=unit(s,id);if(!u||!u.alive||u.used||s.supply<1||!LOADOUTS[id])return false;return !(id==='yun'&&u.build===0&&!s.units.some(v=>v.team==='enemy'&&v.alive&&dist(u,v)<u.range+45));};
+function orderAction(id,order){return {kind:'order',id,order};}
+function skillAction(id){return {kind:'skill',id};}
+function reserveAction(choice){return {kind:'reserve',choice};}
+function canAction(s,a){if(a.kind==='order')return alive(s,a.id)&&['front','north','home','hold'].includes(a.order);if(a.kind==='skill')return skillPossible(s,a.id);if(a.kind==='reserve')return s.reserve==='ready'&&s.t>=28;return false;}
+function choice(id,title,tradeoff,actions=[],proposer=null){return {id,title,tradeoff,actions,proposer};}
+function readySpeaker(s,preferred){return alive(s,preferred)?preferred:['yun','shen','li'].find(id=>alive(s,id))||null;}
+function estimateReturn(u){let pts=u.x>500?(u.y<240?[[550,140],[425,125],[280,165],[240,430],[190,440]]:[[560,315],[465,315],[310,315],[240,430],[190,440]]):[[240,430],[190,440]];let x=u.x,y=u.y,d=0;for(const p of pts){d+=Math.hypot(p[0]-x,p[1]-y);[x,y]=p;}return Math.ceil(d/u.speed);}
+function describeCounsel(s,key){const shen=unit(s,'shen'),li=unit(s,'li'),yun=unit(s,'yun'),guard=unit(s,'guard'),archer=unit(s,'archer'),counter=unit(s,'counter');let speaker=null,title='',why='',options=[],highlight=[];
+ if(key==='opening'){
+  speaker=readySpeaker(s,'shen');title='三军待命，先定谁来打开局面';why=`${['shen','li','yun'].every(id=>alive(s,id))?'三位将领尚未领到进军令。':'可领军的将领已变化，失效方案已撤下。'}${shen.build===0?'沈砚带盾阵，能替近旁友军挡箭。':'沈砚带刀兵，擅长给敌重步破甲。'}${li.build===0?'李峥是轻骑，能从浅滩隐蔽绕后。':'李峥是铁骑，走桥路可发挥冲锋，浅滩会减速。'}`;highlight=['guard','archer'];
+  if(alive(s,'shen')&&alive(s,'yun'))options.push(choice('anchor','沈砚：先压桥，李峥暂作后手','沈砚与云乔沿桥路推进；李峥留在原地。能先看清敌阵，但不会立刻处理高地弓手。',[orderAction('shen','front'),orderAction('yun','front'),...(alive(s,'li')?[orderAction('li','hold')]:[])],'shen'));
+  if(alive(s,'li')&&alive(s,'shen')&&alive(s,'yun'))options.push(choice('split',li.build===0?'李峥：双路并进，我走浅滩':'李峥：三军压桥，铁骑抢先冲阵',li.build===0?'轻骑北绕，沈砚与云乔压桥。更早威胁弓手，但李峥离主力保护更远。':'三将桥路合击。冲锋可打断重步，但高地弓手暂时无人牵制。',[orderAction('shen','front'),orderAction('yun','front'),orderAction('li',li.build===0?'north':'front')],'li'));
+  options.push(choice('decline','暂不采纳，仍按现有军令行动','不改变任何部队命令；若还没有下令，部队会继续待命。'));
+ }else if(key==='bridge'){
+  speaker=readySpeaker(s,'shen');title='桥头正在吃紧，是否现在动用战术？';highlight=['shen','guard'];why=guard.alive?`沈砚现有 ${Math.ceil(shen.hp)} / ${shen.maxHp} 兵力，桥头重步仍有 ${Math.ceil(guard.hp)}。双方正在近距离交战；沈砚${formationLabel(shen)}，疲劳 ${Math.round(shen.fatigue||0)}。列阵不足会减攻减防，这是当前战况触发。`:'桥头重步已溃退，原来的危急条件已解除；失效选项已撤下。';
+  if(guard.alive&&skillPossible(s,'shen'))options.push(choice('shen-skill',shen.build===0?'沈砚：用「坚壁」顶住这一轮':'沈砚：用「破阵」凿开重步',shen.build===0?'消耗 1 军令。12 秒内附近友军减伤，保人但不额外增援。':'消耗 1 军令。下一次交锋打出破甲突击并击晕；换突破，不提供持续防护。',[skillAction('shen')],'shen'));
+  if(guard.alive&&yun.build===1&&skillPossible(s,'yun')&&dist(yun,shen)<155)options.push(choice('smoke','云乔：用烟幕护住近旁主力','消耗 1 军令。近旁友军暂时免箭伤并减轻其他伤害；只有烟幕游军且在保护范围内才有此案。',[skillAction('yun')],'yun'));
+  if(alive(s,'shen')&&shen.order!=='home')options.push(choice('withdraw-shen','让沈砚脱战回防，保存这支主力',`不耗军令。沈砚约 ${estimateReturn(shen)} 秒回到营寨；前线会失去盾阵或破甲支援。`,[orderAction('shen','home')],'shen'));
+  options.push(choice('decline','不用战术，继续当前交战','保留军令，不改变命令；当前承伤会继续发生。'));
+ }else if(key==='flank'){
+  speaker=readySpeaker(s,'li');title='北侧出现机会，要李峥怎么做？';highlight=['li','archer'];
+  const reached=li.alive&&li.order==='north'&&li.x>500;
+  why=reached?`李峥已越过北侧浅滩，${archer.alive?`高地弓手还有 ${Math.ceil(archer.hp)} 兵力。`:'高地弓手已溃退。'}他已经处在能影响侧翼的位置。`:`桥头重步正与我军交战，弓手侧翼仍空着。李峥${li.build===0?'的轻骑可走林间浅滩，不受涉水减速。':'的铁骑擅长正面冲锋，但走浅滩会明显减速。'}`;
+  if(reached&&li.build===0&&archer.alive&&skillPossible(s,'li'))options.push(choice('raid-skill','李峥：掠阵，扰乱弓手号令','消耗 1 军令。当前已经北路越河，能让弓手停射 15 秒；这枚军令之后不能再给他用。',[skillAction('li')],'li'));
+  if(alive(s,'li')&&li.order!=='north'&&archer.alive)options.push(choice('north',li.build===0?'派轻骑从浅滩绕后':'仍让铁骑从浅滩绕后',li.build===0?'不耗军令。轻骑离开主力，去处理高地弓手；前线暂时少一支输出。':'不耗军令。可以绕到弓手身后，但浅滩会让铁骑移速减半；并非最擅长的路线。',[orderAction('li','north')],'li'));
+  if(alive(s,'li')&&li.order!=='front')options.push(choice('front',li.build===1?'李峥：不走浅滩，铁骑压桥':'不赌侧翼，让李峥加入桥头合击','不耗军令。李峥向桥路主力靠拢；加强正面，放弃或延后当前侧翼机会。',[orderAction('li','front')],'li'));
+  options.push(choice('decline','不改变李峥现在的任务','不耗资源，保持当前命令。机会可能随敌我位置变化而消失，不会重复提醒。'));
+ }else if(key==='reserve'){
+  speaker=readySpeaker(s,'li');title='敌阵已被牵动，唯一预备队押在哪里？';highlight=['li','gate','camp'];why=`${!archer.alive?'高地弓手已被拔掉。':`桥头重步剩余 ${Math.ceil(guard.hp)}，李峥位于${li.x>480?'河东侧':'河西侧'}。`}预备队当前${s.reserve==='ready'?'仍未投入':'已被使用'}。敌骑会在 42 秒从南路出动；这是破阵速度与守营之间的取舍。`;
+  if(s.reserve==='ready'&&s.t>=28){options.push(choice('flank',alive(s,'li')?'李峥：预备队投入北路，乘势破纛':'让预备队投入北路，乘势破纛','用掉唯一预备队，145 兵力绕后。之后无法改作守营；要靠回防或先破大纛解决反击。',[reserveAction('flank')],alive(s,'li')?'li':null));options.push(choice('defend','把预备队留在南路，三将继续攻','用掉唯一预备队，260 兵力守营。较稳，但北路没有额外兵力抢速度。',[reserveAction('defend')],alive(s,'shen')?'shen':null));}
+  options.push(choice('decline','现在不投入，保留最后一支兵','不耗预备队；眼前破阵机会不加兵。若敌骑真的逼近营寨，再处理新的军情。'));
+ }else if(key==='fatigue'){
+  const u=['shen','li','yun'].map(id=>unit(s,id)).filter(u=>u.alive&&u.order!=='home'&&((u.fatigue||0)>=42||(u.formation==='disordered'&&u.hp/u.maxHp<.6))).sort((a,b)=>(b.fatigue||0)-(a.fatigue||0))[0];speaker=u?.id||readySpeaker(s,'shen');title='部队已疲劳或散乱，是否先保住阵形？';highlight=u?[u.id]:[];why=u?`${NAMES[u.id]}当前${formationLabel(u)}，疲劳 ${Math.round(u.fatigue||0)} / 100，兵力 ${Math.ceil(u.hp)}。疲劳会降低行军与攻击；未列成阵或被打散时，攻击和防护都偏弱。`:'提出建议的部队已经撤离，当前只需确认继续。';if(u)options.push(choice('rest','让这支部队回营整队休息',`不耗军令。${NAMES[u.id]}约 ${estimateReturn(u)} 秒回营；脱离交战并停下后恢复疲劳、重新列阵，前线会少一军。`,[orderAction(u.id,'home')],u.id));options.push(choice('decline','继续当前任务，接受疲劳与阵乱风险','不改变命令。部队并非无法作战，但现阶段攻防较弱；不需要反复纠正军令。'));
+ }else if(key==='camp'){
+  speaker=readySpeaker(s,'yun');title='南路敌骑正在逼近，营寨由谁来保？';highlight=['counter','camp'];const eta=counter?.alive?Math.max(0,Math.ceil((dist(counter,unit(s,'camp'))-65)/counter.speed)):0;why=counter?.alive?`敌反击骑已到南路，未受阻时约 ${eta} 秒接触营寨。敌骑当前${counter?formationLabel(counter):'未知阵形'}；行军转列阵需要时间。营寨还剩 ${Math.ceil(unit(s,'camp').hp)}；${s.reserve==='flank'?'预备队已押在北路，不能收回。':s.reserve==='defend'?'守营预备队已经承压。':'预备队仍未投入。'}`:'这支反击骑已经被截住，原有威胁消失；只需确认是否保持当前行动。';
+  if(counter?.alive&&s.reserve==='ready'&&s.t>=28)options.push(choice('defend','立即让预备队守营','用掉唯一预备队，三位将领不必离开进攻路线。',[reserveAction('defend')],speaker));
+  if(counter?.alive)for(const id of ['shen','li']){const u=unit(s,id);if(u.alive&&u.order!=='home'){const travel=estimateReturn(u);options.push(choice('return-'+id,`改派${NAMES[id]}回防`,`${NAMES[id]}约 ${travel} 秒抵营${travel>eta?'，可能晚于敌骑':''}；不耗军令，但前线会失去他的${id==='shen'?(u.build===0?'保护':'破甲'):(u.build===0?'侧翼输出':'冲锋')}。`,[orderAction(id,'home')],id));}}
+  options.push(choice('decline','不回防，继续抢破敌军大纛','保持当前进攻，接受营寨受击风险；只有抢先击破大纛才能免于失守。'));
+ }
+ options=options.filter(o=>o.actions.every(a=>canAction(s,a)));return {key,speaker,speakerName:speaker?NAMES[speaker]:'军报',title,why,options,highlight};
+}
+function counselView(s){if(!s.counsel?.active||s.outcome)return null;const a=s.counsel.active;return {...describeCounsel(s,a.key),id:a.id,openedAt:a.openedAt,pausedBefore:a.pausedBefore};}
+function pollCounsel(s){if(checkBattleEnd(s)||s.phase!=='battle'||!s.counsel?.enabled)return null;if(s.counsel.active)return counselView(s);const shen=unit(s,'shen'),li=unit(s,'li'),guard=unit(s,'guard'),archer=unit(s,'archer'),counter=unit(s,'counter'),reserve=unit(s,'reserve');const seen=new Set(s.counsel.seen);let key=null;
+ const weary=['shen','li','yun'].map(id=>unit(s,id)).find(u=>u.alive&&u.order!=='home'&&((u.fatigue||0)>=42||(u.formation==='disordered'&&u.hp/u.maxHp<.6)));
+ const threatened=counter?.alive&&counter.x<720&&(s.reserve!=='defend'||!reserve?.alive||reserve.hp<60);
+ if(!seen.has('camp')&&threatened)key='camp';
+ else if(s.t>=s.counsel.nextAt){
+  if(!seen.has('fatigue')&&weary)key='fatigue';
+  else if(!seen.has('opening')&&s.t<.1&&['shen','li','yun'].every(id=>alive(s,id)&&unit(s,id).order==='wait'))key='opening';
+  else if(!seen.has('bridge')&&shen.alive&&guard.alive&&dist(shen,guard)<90&&(shen.target==='guard'||guard.target==='shen')&&(shen.hp/shen.maxHp<.8||shen.formation==='disordered'))key='bridge';
+  else if(!seen.has('reserve')&&s.reserve==='ready'&&s.t>=28&&(!archer.alive||(guard.hp/guard.maxHp<.55)||(li.alive&&li.order==='north'&&li.x>480)))key='reserve';
+  else if(!seen.has('flank')&&li.alive&&archer.alive&&((['wait','hold'].includes(li.order)&&guard.alive&&guard.target&&unit(s,guard.target)?.team==='ally')||(li.build===0&&li.order==='north'&&li.x>500&&li.y<260&&skillPossible(s,'li'))))key='flank';
+ }
+ if(!key)return null;const before=s.paused;s.counsel.serial++;s.counsel.active={id:`counsel-${s.counsel.serial}`,key,openedAt:s.t,pausedBefore:before};s.counsel.seen.push(key);s.paused=true;note(s,`军议暂停：${describeCounsel(s,key).title}`,'decision');return counselView(s);
+}
+function chooseCounsel(s,counselId,choiceId){if(checkBattleEnd(s)||s.phase!=='battle'||!s.counsel?.active||s.counsel.active.id!==counselId)return false;const view=counselView(s),option=view.options.find(o=>o.id===choiceId);if(!option||!option.actions.every(a=>canAction(s,a)))return false;const skills=option.actions.filter(a=>a.kind==='skill').length;if(skills>s.supply)return false;const pauseBefore=s.counsel.active.pausedBefore,before={supply:s.supply,reserve:s.reserve};s.counsel.resolving=true;
+ for(const a of option.actions){if(a.kind==='order')command(s,a.id,a.order);if(a.kind==='skill')skill(s,a.id);if(a.kind==='reserve')commitReserve(s,a.choice);}
+ s.counsel.responses.push({id:view.id,key:view.key,t:s.t,option:option.id,title:option.title,speaker:option.proposer||view.speaker,before,after:{supply:s.supply,reserve:s.reserve},actions:option.actions.map(a=>({...a}))});s.counsel.active=null;s.counsel.resolving=false;s.counsel.nextAt=s.t+4;s.paused=pauseBefore;note(s,`主公决断：${option.title}。`,'decision');return true;
+}
+
+function formationLabel(u){return ({march:'行军纵队',deploying:'正在列阵',formed:'阵形完整',disordered:'阵形被打散'})[u?.formation]||'尚未列阵';}
+function initFormation(s,u){if(!u||u.structure||u.formation)return;const marching=u.order==='raid'||(u.team==='ally'&&u.order!=='wait'&&u.order!=='hold');u.formation=marching?'march':'formed';u.deployProgress=marching?0:1;u.formationBlend=marching?0:1;u.fatigue=0;u.disorderUntil=0;u.lastDisrupted=-20;u.formHealthBaseline=u.hp;u.facing={x:u.team==='ally'?1:-1,y:0};u.movedAt=-1;}
+function marchFormation(s,u,dt){if(!s.formationsEnabled)return;u.formation=u.disorderUntil>s.t?'disordered':'march';u.deployProgress=0;u.formationBlend=Math.max(0,u.formationBlend-dt/1.3);u.fatigue=Math.min(100,u.fatigue+dt*(u.id==='li'&&u.build===0?.65:.95));}
+function settleFormation(s,u,dt){if(!s.formationsEnabled)return;initFormation(s,u);if(u.disorderUntil>s.t){u.formation='disordered';u.deployProgress=0;u.formationBlend=Math.max(.15,u.formationBlend-dt);return;}if(u.formation==='formed'){u.deployProgress=1;u.formationBlend=1;return;}u.formation='deploying';u.deployProgress=Math.min(1,u.deployProgress+dt/3);u.formationBlend=u.deployProgress;if(u.deployProgress>=1)u.formation='formed';}
+function disruptFormation(s,u,seconds){if(!s.formationsEnabled||!u||u.structure)return;initFormation(s,u);u.formation='disordered';u.disorderUntil=Math.max(u.disorderUntil,s.t+seconds);u.lastDisrupted=s.t;u.deployProgress=0;u.formationBlend=Math.min(.4,u.formationBlend);u.fatigue=Math.min(100,u.fatigue+8);}
+function formationAttack(s,u){if(!s.formationsEnabled||u.structure)return 1;initFormation(s,u);const f=u.formation==='formed'?1:u.formation==='deploying'?.45+.25*u.deployProgress:u.formation==='disordered'?.4:.45;return f*(1-u.fatigue/100*.35);}
+
+const $=id=>document.getElementById(id);
+const colors={shen:'#2e6155',li:'#b18a42',yun:'#557d8d',reserve:'#718366'};
+const labels={wait:'待命 · 尚未领到军令',front:'桥路推进',north:'浅滩绕后',home:'回防营寨',hold:'固守 · 休整列阵'};
+const formationNames={march:'行军纵队',deploying:'展开列阵',formed:'战阵就绪',disordered:'阵形散乱'};
+let lastCounselSignature='';
+let s=createState(),speed=1,last=0,acc=0,uiClock=0,dismissed=new Set(),lastInspector='',lastAdvice='',lastLog='',resultShown=false,toastTimer,previous=null;
+try{previous=JSON.parse(localStorage.getItem('jiangling-v3-last-battle')||'null')}catch{}
+const canvas=$('map'),ctx=canvas.getContext('2d');
+function clock(t){return `${String(Math.floor(t/60)).padStart(2,'0')}:${String(Math.floor(t%60)).padStart(2,'0')}`;}
+function toast(text){document.querySelector('.toast')?.remove();clearTimeout(toastTimer);const el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent=text;document.body.append(el);toastTimer=setTimeout(()=>el.remove(),2500);}
+function setupCards(){$('generalList').innerHTML=['shen','li','yun'].map((id,i)=>`<button class="general-card" data-select="${id}" style="--unit:${colors[id]}"><div class="row"><b>${NAMES[id]}</b><span id="hp-${id}" class="muted"></span></div><div class="build-label" id="build-${id}"></div><div class="order-label" id="order-${id}"></div><div class="condition-label" id="condition-${id}"></div><div class="hp-track"><i id="bar-${id}"></i></div></button>`).join('');}
+function select(id){if(counselLocked(s))return;if(!['shen','li','yun'].includes(id))return;s.selected=id;lastInspector='';updateUI();}
+function reset(keep=true){if(counselLocked(s))return;const builds=keep?s.builds:{shen:0,li:0,yun:0};s=createState(builds);speed=1;acc=0;dismissed.clear();lastInspector='';lastAdvice='';lastLog='';resultShown=false;$('results').hidden=true;document.body.classList.remove('battle-ended');updateUI();draw();window.scrollTo({top:0,behavior:'smooth'});}
+function changeBuild(id,b){if(counselLocked(s))return;if(s.phase!=='prep')return;const orders=s.units.filter(u=>LOADOUTS[u.id]).map(u=>[u.id,u.order]);const selected=s.selected;s=createState({...s.builds,[id]:b});s.selected=selected;for(const [id,order] of orders)if(order!=='wait')command(s,id,order);lastInspector='';updateUI();draw();}
+function doOrder(id,o){if(counselLocked(s))return;if(command(s,id,o)){lastInspector='';toast(`${NAMES[id]}已领命：${labels[o]}。`);updateUI();draw();}}
+function skillReady(u){return !counselLocked(s)&&s.phase==='battle'&&u.alive&&!u.used&&s.supply>0&&!(u.id==='yun'&&u.build===0&&!s.units.some(v=>v.team==='enemy'&&v.alive&&Math.hypot(v.x-u.x,v.y-u.y)<u.range+45));}
+function updateUI(){
+ pollCounsel(s);syncCounsel();
+ $('phase').textContent=s.phase==='prep'?'布阵中':s.outcome?(s.outcome.result==='win'?'战役获胜':'战役失利'):counselLocked(s)?'军议暂停 · 等候决断':s.paused?'已暂停 · 可下令':'战役进行中';
+ $('timer').textContent=clock(s.t);$('supply').textContent=s.supply;$('speed').textContent=`速度 ×${speed}`;
+ $('play').innerHTML=s.phase==='prep'?'开始战役 <span>↗</span>':s.outcome?'再战一局 <span>↻</span>':s.paused?'继续战役 <span>▶</span>':'暂停下令 <span>Ⅱ</span>';
+ $('mapHint').textContent=s.phase==='prep'?'先选构筑，再分派路线；也可开战后下令。':s.outcome?s.outcome.reason:counselLocked(s)?'军情已经暂停战局，请在弹窗中明确选择。':s.paused?'战局已冻结。下令后继续即可。':'命令持续执行 · 空格可随时暂停';
+ for(const id of ['shen','li','yun']){const u=unit(s,id);const card=document.querySelector(`[data-select="${id}"]`);card.classList.toggle('selected',id===s.selected);card.setAttribute('aria-pressed',String(id===s.selected));$('hp-'+id).textContent=u.alive?`${Math.ceil(u.hp)} / ${u.maxHp}`:'已溃退';$('build-'+id).textContent=LOADOUTS[id][u.build].name;$('order-'+id).textContent=u.alive?labels[u.order]:'本局无法再行动';$('condition-'+id).textContent=u.alive?`${formationNames[u.formation]||'战阵就绪'}${u.formation==='deploying'?` ${Math.round((u.deployProgress||0)*100)}%`:''} · 疲劳 ${Math.round(u.fatigue||0)}`:'部队已溃退';$('bar-'+id).style.width=`${u.hp/u.maxHp*100}%`;}
+ const u=unit(s,s.selected),b=LOADOUTS[u.id][u.build],ready=skillReady(u);const sig=[s.selected,s.phase,u.build,u.order,u.used,u.alive,s.supply,ready,counselLocked(s)].join();
+ if(lastInspector!==sig){lastInspector=sig;$('inspector').innerHTML=`<div class="general-heading"><h2>${NAMES[u.id]}</h2><span class="tag">${b.tag}</span></div><p class="personality">${PERSONALITY[u.id]} · ${s.phase==='prep'?'战前可换构筑':'构筑已锁定'}</p><p id="unitCondition" class="unit-condition"></p><div class="build-options">${LOADOUTS[u.id].map((opt,i)=>`<button data-build="${i}" class="${i===u.build?'active':''}" ${s.phase!=='prep'?'disabled':''} aria-pressed="${i===u.build}">${opt.name}<small>${opt.tag}</small></button>`).join('')}</div><p class="build-desc">${b.desc}</p><div class="orders" aria-label="普通军令，不消耗资源">${[['front','→ 桥路推进'],['north','↗ 浅滩绕后'],['home','↙ 回防营寨'],['hold','■ 固守休整']].map(([o,t])=>`<button data-order="${o}" class="${u.order===o?'active':''}" ${!u.alive||s.outcome||counselLocked(s)?'disabled':''}>${t}</button>`).join('')}</div><button id="skill" class="skill-button" ${ready?'':'disabled'}><span>${u.used?'已用 · ':''}${b.skill}</span><small>${u.used?'本局一次':s.phase==='prep'?'开战后可用':!u.alive?'已溃退':!ready&&u.id==='yun'&&u.build===0?'等待敌人进入射程':'消耗 1 军令'}</small></button><p class="skill-desc">${b.skillDesc} 普通军令免费。</p>`;}
+ $('unitCondition').textContent=`${formationNames[u.formation]||'战阵就绪'} · 疲劳 ${Math.round(u.fatigue||0)}/100${u.formation==='deploying'?` · 列阵 ${Math.round((u.deployProgress||0)*100)}%`:''}。脱离交战后固守可恢复疲劳；列阵完成前攻防较弱。`;
+ $('reserveState').textContent=s.reserve==='ready'?(s.t<28?`${Math.ceil(28-s.t)} 秒后可投入`:'尚未投入'):s.reserve==='defend'?'已投入守营':'已投入绕后';
+ $('reserveDefend').disabled=$('reserveFlank').disabled=s.phase!=='battle'||s.t<28||s.reserve!=='ready'||counselLocked(s);
+ $('reserveHint').textContent=s.reserve==='ready'?(s.t<28?'28 秒时可投入。守营能让三将持续进攻；绕后可抢先破纛，但南路会空虚。':'敌骑 42 秒出发，约 60 秒抵营。此时只选一次：守营换安稳，绕后换破阵速度。'):s.reserve==='defend'?'预备队已锁定南路。三将可以继续向敌军大纛推进。':'预备队已锁定北路。请安排回防，或赶在营寨失守前破纛。';
+ const responses=s.counsel?.responses||[];const adSig=JSON.stringify([s.phase,responses.length,counselLocked(s)]);if(adSig!==lastAdvice){lastAdvice=adSig;$('proposals').innerHTML=`<p class="personality">关键军情会自动暂停并弹出议策，必须明确采纳或拒绝。相同问题不会反复催促。</p><p class="counsel-count">已回应 ${responses.length} 次${counselLocked(s)?' · 当前等待决断':''}</p>${responses.length?`<p class="personality">最近决断：${responses.at(-1).title}</p>`:''}`;}
+ const newest=s.log.at(-1);if(newest&&lastLog!==JSON.stringify(newest)){lastLog=JSON.stringify(newest);$('lastLog').textContent=`${clock(newest.t)}　${newest.text}`;$('logs').innerHTML=[...s.log].reverse().map(l=>`<li class="${l.type}"><time>${clock(l.t)}</time>${l.text}</li>`).join('');}else if(!newest){$('lastLog').textContent='布阵尚未完成。普通军令不限次数、不消耗资源。';$('logs').innerHTML='';}
+ if(s.outcome&&!resultShown)showResult();
+}
+function showResult(){resultShown=true;document.body.classList.add('battle-ended');const win=s.outcome.result==='win',survivors=s.units.filter(u=>LOADOUTS[u.id]&&u.alive).length;let comparison='这是本机记录的第一局。更换构筑或路线，再用同一敌阵验证想法。';if(previous)comparison=`上一局：${previous.win?'胜利':'失利'} · ${clock(previous.time)} · 营寨 ${previous.camp} · ${previous.builds.join(' / ')}。本局 ${clock(s.t)}，营寨 ${Math.ceil(unit(s,'camp').hp)}。`;
+ $('results').innerHTML=`<div class="result-heading"><div><p class="eyebrow">战局复盘 · ${clock(s.t)}</p><h2>${win?'大纛已破，临河告捷。':'此战失利，仍可再谋。'}</h2></div><span class="tag">${survivors}/3 将领未溃退</span></div><p>${s.outcome.reason} 结果来自实际交战与调度，不是预设评语。</p><ul>${summarize(s).map(t=>`<li>${t}</li>`).join('')}</ul><p class="compare">${comparison}</p><div class="result-actions"><button data-result="retry" class="primary">同构筑再战 ↻</button><button data-result="build">换构筑对照</button></div>`;$('results').hidden=false;
+ const record={win,time:s.t,camp:Math.ceil(unit(s,'camp').hp),builds:['shen','li','yun'].map(id=>LOADOUTS[id][s.builds[id]].name)};try{localStorage.setItem('jiangling-v3-last-battle',JSON.stringify(record))}catch{}previous=record;
+ setTimeout(()=>$('results').scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+}
+function togglePlay(){if(counselLocked(s))return;if(s.phase==='prep'){start(s);if(!counselLocked(s))toast('战役开始，军情有变时将领会请主公决断。');}else if(s.outcome)reset();else setPaused(s,!s.paused);acc=0;updateUI();draw();}
+function draw(){const c=ctx;c.clearRect(0,0,960,560);c.fillStyle='#e9ebdf';c.fillRect(0,0,960,560);
+ // Topographic contour lines and small orderly foliage marks.
+ c.lineWidth=1;c.strokeStyle='#d7ddcd';for(let n=0;n<5;n++){c.beginPath();c.ellipse(325,75,120+n*29,24+n*14,-.18,0,Math.PI*2);c.stroke();}for(let n=0;n<5;n++){c.beginPath();c.ellipse(730,115,78+n*25,29+n*12,.25,0,Math.PI*2);c.stroke();}
+ c.fillStyle='#d0d9c5';for(let n=0;n<42;n++){const x=210+(n*47)%330,y=52+(n*31)%140;if(x>380&&y>105)continue;c.fillRect(x,y,5,5);}
+ // River runs north/south. Only ford and bridge cross it.
+ c.fillStyle='#b7cbd0';c.beginPath();c.moveTo(450,-10);c.bezierCurveTo(420,120,502,190,460,290);c.bezierCurveTo(400,405,470,450,450,570);c.lineTo(510,570);c.bezierCurveTo(540,440,469,395,520,290);c.bezierCurveTo(560,175,480,110,510,-10);c.closePath();c.fill();
+ c.strokeStyle='#a4bdc4';c.lineWidth=1;for(let n=0;n<16;n++){const y=20+n*34,x=470+Math.sin(n*.65)*15;c.beginPath();c.moveTo(x-7,y);c.lineTo(x+12,y);c.stroke();}
+ path([[90,315],[310,315],[480,315],[585,315],[825,290]],'#d8d1b9',29);path([[165,205],[280,165],[425,125],[560,140],[690,210],[825,290]],'#d2d3bd',19);
+ // Bridge and north ford.
+ c.fillStyle='#c2ac84';c.fillRect(431,296,104,38);c.strokeStyle='#967e5d';c.lineWidth=2;for(let i=0;i<10;i++){c.beginPath();c.moveTo(438+i*10,298);c.lineTo(438+i*10,333);c.stroke();}c.beginPath();c.moveTo(430,295);c.lineTo(537,295);c.moveTo(430,336);c.lineTo(537,336);c.stroke();
+ c.fillStyle='#cbd5ca';for(let i=0;i<5;i++){c.beginPath();c.ellipse(444+i*15,126+i*2,10,6,0,0,Math.PI*2);c.fill();}
+ // Enemy counter route is a readable, persistent forecast.
+ c.setLineDash([5,7]);path([[865,475],[600,475],[330,455],[105,455]],s.t>=42?'#b98675':'#c2b4a2',1.2);c.setLineDash([]);
+ label('北侧浅滩',428,87,'#6c7d65',13);label('轻骑隐蔽 · 铁骑减速',428,105,'#81907b',10);label('独木桥',485,365,'#867252',12);label('桥头重步把守',485,382,'#8e8978',10);label('高地',708,150,'#79876e',12);label('临 河',487,488,'#64868f',14);
+ const enemy=unit(s,'counter');const threat=s.t<42?`敌骑 · ${Math.max(0,Math.ceil(42-s.t))} 秒后出动`:enemy?.alive?'敌骑正沿南路反击':'反击骑已被截住';label(threat,728,514,enemy?.alive?'#a85b4d':'#8c8e7e',12);label('预计约 60 秒抵营',728,532,'#989382',10);
+ // Cardinal compass.
+ c.strokeStyle='#9ba994';c.lineWidth=1;c.beginPath();c.moveTo(70,51);c.lineTo(70,80);c.moveTo(63,61);c.lineTo(70,51);c.lineTo(77,61);c.stroke();label('北',70,39,'#829078',10);
+ // Selected unit's exact outstanding path, drawn without concealing terrain.
+ const view=counselView(s);if(view){for(const id of view.highlight||[]){const marked=unit(s,id);if(!marked)continue;c.strokeStyle='#b18a42';c.lineWidth=2;c.setLineDash([5,5]);c.beginPath();c.arc(marked.x,marked.y,marked.structure?43:35,0,Math.PI*2);c.stroke();c.setLineDash([]);}}
+ const sel=unit(s,s.selected);if(sel.alive&&sel.route?.length&&sel.routeIndex<sel.route.length){c.setLineDash([6,6]);path([[sel.x,sel.y],...sel.route.slice(sel.routeIndex)],colors[sel.id],2);c.setLineDash([]);const goal=sel.route.at(-1);c.strokeStyle=colors[sel.id];c.strokeRect(goal[0]-7,goal[1]-7,14,14);}
+ // Rays reveal which troops are fighting. Render-only flicker cannot affect combat.
+ for(const u of s.units){if(u.alive&&u.target){const v=unit(s,u.target);if(v?.alive){c.globalAlpha=.28;c.strokeStyle=u.team==='ally'?(colors[u.id]||'#718366'):'#b26355';c.lineWidth=u.range>80?1:2;c.beginPath();c.moveTo(u.x,u.y);c.lineTo(v.x,v.y);c.stroke();c.globalAlpha=1;}}}
+ for(const u of s.units.filter(u=>u.structure))drawUnit(u);for(const u of s.units.filter(u=>!u.structure))drawUnit(u);
+ for(const e of s.effects){const age=s.t-e.t;c.globalAlpha=1-age/1.6;c.strokeStyle=e.color;c.lineWidth=2;c.beginPath();c.arc(e.x,e.y,12+age*22,0,Math.PI*2);c.stroke();c.globalAlpha=1;}
+ if(s.phase==='prep'||(s.paused&&!s.outcome)){c.fillStyle='#f4f1e8e8';c.fillRect(369,16,220,29);label(s.phase==='prep'?'布阵中 · 时间尚未流动':(counselLocked(s)?'军议暂停 · 请明确决断':'已暂停 · 可从容下令'),479,35,'#3c5d4b',12);}
+ if(s.outcome){c.fillStyle='#f4f1e8ed';c.fillRect(324,22,312,44);label(s.outcome.result==='win'?'胜 · 敌军大纛已破':'败 · '+(unit(s,'camp').alive?'援军合围':'营寨失守'),480,50,s.outcome.result==='win'?'#285e4f':'#a85b4d',18);}
+ if(counselLocked(s)){const preview=$('counselMap');const pc=preview.getContext('2d');pc.clearRect(0,0,960,560);pc.drawImage(canvas,0,0,960,560);}
+}
+function path(points,color,width){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.stroke();ctx.lineCap='butt';}
+function label(t,x,y,color='#61745f',size=12){ctx.fillStyle=color;ctx.font=`${size}px "Noto Sans CJK SC","Microsoft YaHei",sans-serif`;ctx.textAlign='center';ctx.fillText(t,x,y);}
+function drawUnit(u){const c=ctx,color=u.team==='enemy'?'#a85b4d':(colors[u.id]||'#476457');if(!u.alive){c.globalAlpha=.3;c.strokeStyle=color;c.lineWidth=2;c.beginPath();c.moveTo(u.x-8,u.y-8);c.lineTo(u.x+8,u.y+8);c.moveTo(u.x+8,u.y-8);c.lineTo(u.x-8,u.y+8);c.stroke();label('溃退',u.x,u.y+26,color,9);c.globalAlpha=1;return;}
+ if(u.structure){c.strokeStyle=color;c.lineWidth=2;c.strokeRect(u.x-27,u.y-27,54,54);c.fillStyle=u.team==='enemy'?'#e3cfc0':'#d2ddcd';c.fillRect(u.x-24,u.y-24,48,48);c.fillStyle=color;c.fillRect(u.x-14,u.y-14,28,28);label(u.id==='gate'?'纛':'营',u.x,u.y+6,'#faf7ed',16);label(NAMES[u.id],u.x,u.id==='camp'?u.y+74:u.y-40,color,12);hpBar(u,u.y+36,62);label(`${Math.ceil(u.hp)} / ${u.maxHp}`,u.x,u.y+55,color,10);return;}
+ const count=Math.max(1,Math.ceil(u.hp/u.maxHp*18));for(let i=0;i<count;i++){const p=soldierPosition(u,i,count);c.fillStyle=color;c.globalAlpha=.92-Math.min(100,u.fatigue||0)*.002;c.fillRect(p.x-3,p.y-3,6,6);}c.globalAlpha=1;
+ if(u.id===s.selected){c.strokeStyle=color;c.lineWidth=1.5;c.strokeRect(u.x-17,u.y-17,34,34);c.fillStyle=color;c.beginPath();c.moveTo(u.x-4,u.y-23);c.lineTo(u.x+4,u.y-23);c.lineTo(u.x,u.y-18);c.fill();}
+ if(u.buffUntil>s.t){c.globalAlpha=.15;c.fillStyle=color;c.beginPath();c.arc(u.x,u.y,57,0,Math.PI*2);c.fill();c.globalAlpha=1;}
+ c.fillStyle='#172b231a';c.fillRect(u.x-9,u.y-8,23,23);c.fillStyle=color;c.fillRect(u.x-12,u.y-12,24,24);label(({shen:'沈',li:'李',yun:'云',reserve:'备',guard:'盾',archer:'弓',counter:'骑',reinforce:'援'})[u.id]||'兵',u.x,u.y+5,'#fffaf0',13);
+ label(NAMES[u.id],u.x,u.y-32,color,11);hpBar(u,u.y+53,47);if(u.formation!=='formed'||u.id===s.selected||u.fatigue>60)label(`${formationNames[u.formation]||'战阵'}${u.formation==='deploying'?` ${Math.round((u.deployProgress||0)*100)}%`:''}${u.id===s.selected||u.fatigue>60?` · 疲 ${Math.round(u.fatigue||0)}`:''}`,u.x,u.y+67,u.formation==='disordered'?'#a85b4d':'#74836b',9);
+ if(u.stunUntil>s.t)label('受扰',u.x,u.y-47,'#a8863d',10);else if(u.brokenUntil>s.t)label('破甲',u.x,u.y-47,'#a85b4d',10);
+}
+function hpBar(u,y,w){ctx.fillStyle='#bfc7b6';ctx.fillRect(u.x-w/2,y,w,3);ctx.fillStyle=u.team==='enemy'?'#a85b4d':colors[u.id]||'#476457';ctx.fillRect(u.x-w/2,y,w*u.hp/u.maxHp,3);}
+$('play').addEventListener('click',togglePlay);$('restart').addEventListener('click',()=>{if(counselLocked(s))return;reset();toast('已重开同一敌阵，保留三将构筑。');});$('rebuild').addEventListener('click',()=>{if(counselLocked(s))return;reset();toast('已回到战前。点击将领即可更换构筑。');});$('speed').addEventListener('click',()=>{if(counselLocked(s))return;speed=speed===1?2:1;updateUI();});
+$('generalList').addEventListener('click',e=>{if(counselLocked(s))return;const b=e.target.closest('[data-select]');if(b)select(b.dataset.select);});
+$('inspector').addEventListener('click',e=>{if(counselLocked(s))return;const b=e.target.closest('button');if(!b||b.disabled)return;if(b.dataset.build!==undefined)changeBuild(s.selected,+b.dataset.build);if(b.dataset.order)doOrder(s.selected,b.dataset.order);if(b.id==='skill'){if(skill(s,s.selected)){lastInspector='';toast(`${NAMES[s.selected]}已施展战术。`);updateUI();draw();}}});
+$('reserveDefend').addEventListener('click',()=>{if(counselLocked(s))return;if(commitReserve(s,'defend')){toast('预备队已守营，本局不能改派。');updateUI();draw();}});$('reserveFlank').addEventListener('click',()=>{if(counselLocked(s))return;if(commitReserve(s,'flank')){toast('预备队已绕后。请留意营寨！');updateUI();draw();}});
+$('journalToggle').addEventListener('click',()=>{if(counselLocked(s))return;$('logs').hidden=!$('logs').hidden;});
+function openHelp(){if(counselLocked(s))return;if(s.phase==='battle')setPaused(s,true);$('help').showModal();updateUI();}
+$('helpButton').addEventListener('click',openHelp);$('closeHelp').addEventListener('click',()=>$('help').close());$('helpDone').addEventListener('click',()=>$('help').close());
+$('results').addEventListener('click',e=>{if(counselLocked(s))return;if(e.target.dataset.result)reset();});
+canvas.addEventListener('click',e=>{if(counselLocked(s))return;const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*960/r.width,y=(e.clientY-r.top)*560/r.height;const u=s.units.find(u=>LOADOUTS[u.id]&&Math.hypot(u.x-x,u.y-y)<45);if(u)select(u.id);});
+window.addEventListener('keydown',e=>{if(counselLocked(s)){if(e.code==='Escape'||((e.code==='Space'||['1','2','3'].includes(e.key))&&!e.target.closest?.('[data-counsel-choice]')))e.preventDefault();return;}if(e.repeat)return;if($('help').open||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();togglePlay();}if(['1','2','3'].includes(e.key)){e.preventDefault();select(['shen','li','yun'][+e.key-1]);}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&s.phase==='battle'&&!counselLocked(s)){setPaused(s,true);updateUI();}});
+function frame(now){if(!last)last=now;const elapsed=Math.min((now-last)/1000,.25);last=now;if(s.phase==='battle'&&!s.paused&&!counselLocked(s)){acc+=elapsed*speed;while(acc>=.05&&!counselLocked(s)&&!s.outcome){step(s,.05);acc-=.05;}if(counselLocked(s))acc=0;}else acc=0;uiClock+=elapsed;if(uiClock>.15){updateUI();uiClock=0;}draw();requestAnimationFrame(frame);}
+// A read-only state snapshot and a controlled simulation step support deterministic QA.
+window.__battle={getState:()=>structuredClone(s),getCounsel:()=>structuredClone(counselView(s)),getUI:()=>({speed,counselOpen:$('counselDialog').open}),advance:seconds=>{for(let i=0;i<Math.ceil(seconds/.05)&&!s.outcome;i++)step(s,.05);updateUI();draw();},pause:()=>{setPaused(s,true);updateUI();}};
+
+function soldierPosition(u,i,count){
+ const dir=u.facing||{x:u.team==='enemy'?-1:1,y:0},len=Math.hypot(dir.x,dir.y)||1,fx=dir.x/len,fy=dir.y/len;
+ const marchAlong=-19-Math.floor(i/2)*8,marchAcross=(i%2?1:-1)*4.5;let along,across;
+ const cavalry=['li','counter','reinforce'].includes(u.id),bow=u.id==='archer'||(u.id==='yun'&&u.build===0),shield=u.id==='guard'||(u.id==='shen'&&u.build===0);
+ if(cavalry){const row=Math.floor((i+1)/2);along=24-row*7;across=i===0?0:(i%2?1:-1)*row*(u.build===0?5:4);}
+ else if(shield){along=17+Math.floor(i/9)*9;across=((i%9)-4)*8;}
+ else if(bow){along=-17-Math.floor(i/6)*10;across=((i%6)-2.5)*9+(Math.floor(i/6)%2?3:0);}
+ else{along=14+Math.floor(i/6)*10;across=((i%6)-2.5)*9;}
+ const blend=Math.max(0,Math.min(1,u.formationBlend??(u.formation==='march'?0:u.formation==='deploying'?(u.deployProgress||0):1)));
+ along=marchAlong+(along-marchAlong)*blend;across=marchAcross+(across-marchAcross)*blend;
+ const chaos=u.formation==='disordered'?1:u.formation==='deploying'?(1-blend)*.4:0;
+ if(chaos){const seed=(u.id.charCodeAt(0)+i*17);along+=Math.sin(seed*1.31)*15*chaos;across+=Math.cos(seed*1.79)*19*chaos;}
+ return {x:u.x+along*fx-across*fy,y:u.y+along*fy+across*fx};
+}
+function syncCounsel(){
+ const view=counselView(s),dialog=$('counselDialog'),locked=!!view;
+ $('gameHeader').inert=locked;$('gameMain').inert=locked;document.body.classList.toggle('counsel-open',locked);
+ if(!view){lastCounselSignature='';if(dialog.open)dialog.close();return;}
+ if($('help').open)$('help').close();
+ const signature=JSON.stringify(view);
+ if(signature!==lastCounselSignature){lastCounselSignature=signature;$('counselSpeaker').textContent=`${view.speakerName} · 临阵请示 · ${clock(view.openedAt)}`;$('counselTitle').textContent=view.title;$('counselWhy').textContent=view.why;$('counselResume').textContent=view.pausedBefore?'回应后仍保持你之前的手动暂停。':'明确回应后，将领立即执行，战斗继续。';$('counselOptions').innerHTML=view.options.map(o=>`<button class="counsel-option" data-counsel-id="${view.id}" data-counsel-choice="${o.id}"><strong>${o.title}</strong><span>${o.tradeoff}</span></button>`).join('');}
+ if(!dialog.open){dialog.showModal();$('counselTitle').focus({preventScroll:true});}
+}
+$('counselOptions').addEventListener('click',e=>{const b=e.target.closest('[data-counsel-choice]');if(!b)return;if(chooseCounsel(s,b.dataset.counselId,b.dataset.counselChoice)){acc=0;lastInspector='';lastCounselSignature='';updateUI();draw();}else{lastCounselSignature='';updateUI();}});
+$('counselDialog').addEventListener('cancel',e=>{e.preventDefault();});
+$('counselDialog').addEventListener('close',()=>{if(counselLocked(s))syncCounsel();});
+
+setupCards();updateUI();draw();requestAnimationFrame(frame);
+
+})();</script></body></html>
