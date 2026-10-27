@@ -85,6 +85,26 @@
 - **性能**：寻路避让只在重算路线时执行，实测每步耗时与改前同一量级。
 - **测试**：`window.__battle` 无法改开局部署，阳平可达性实验只能临时改代码再改回。建议在第 5 题的测试工具里给 `createState` 增加可注入的开局参数。
 
+### 0.7 第二轮玩法改动对代码的影响（2026-10-27）
+
+玩法改动的内容和验证见 02 文档 0.11 节。代码层面：
+
+- **传令**：`dispatchOrder` 增加旗鼓即刻送达的分支，军令记录增加 `transport` 和 `eta` 字段。`stepMessenger` 增加截击逻辑，`moveUnit` 记录部队速度 `vx`、`vy`。新增 `recallOrder` 撤回在途军令。
+- **王平**：`stepCommanders` 增加护卫后撤，新字段 `coverUntil`、`coverVec`、`lastWarnHp`，由 `formationSlot` 和 `duelWilling` 读取。新增 `wangpingDangerCouncil`，在 `pollCouncil` 的开局军议之后检查。
+- **自动整队**：新增 `fallbackPost`，替换了三处系统改令为“就地整队”的地方。
+- **观察模式**：`pump` 增加观战倍率 `observerSpeed`，加速时每帧最多跑 14 毫秒的步数。`catchingUp` 在加速观战时不再报“战况同步中”。
+- **调试接口**：`window.__battle` 新增 `recall` 和 `speed`，`getUI` 新增 `observerSpeed` 和 `observing`。
+- **测试经验**：做 A/B 对比时，把第一轮版本临时放进 `public/` 与新版并排跑同一脚本，比较结果后删除。
+
+### 0.8 撤守阳平改动对代码的影响（2026-10-27）
+
+玩法改动的内容和验证见 02 文档 0.12 节。代码层面：
+
+- **新任务 `yangping_hold`**：故意不放进 `TASKS` 和 `DIRECTION_LABELS`，所以玩家无法直接下达，只由 `updatePlayerDirections` 在撤守部队抵关时设置。`ORDER_LABELS` 有它的文案。读这个任务的地方有十余处：行军目标、斥候、单挑意愿、弃军判定、军令可用性、情境菜单、观战判定、结算和军议候选。以后再有“锁定”类状态，宜改为单位上的独立字段，不再借用任务名。这是第 8 题“状态无结构”的又一例。
+- **撤离判定**：`stepSoldier` 中两处撤离条件收窄为王平本人和护卫，按 `commanderId`、`guardFor` 识别。
+- **观战判定**：`ownObserverMode` 改为看本部各军的任务，不再只看兵员统计。
+- **测试工具的时间基准**：`frame(now)` 用动画帧时间戳调用 `pump`，其他入口用 `performance.now()`。平时两者只差几毫秒，没有影响。测试替换 `performance.now` 冻结时钟后，页面已排程的那一帧仍会触发一次，把 `lastTick` 拉回真实时间，于是积压出几十秒的步数，`catchingUp()` 变真，军令被拒收。测试脚本已改为等这一帧过去再开局，并逐批记录积压。代码上建议 `frame` 不用传入的时间戳，统一调 `performance.now()`；或在第 5 题的测试工具里提供正式的“推进 N 步”接口。
+
 ## 1. 现状速览（第一版基线）
 
 | 指标 | 第一版 | 第二版 |
